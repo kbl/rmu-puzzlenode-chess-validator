@@ -15,6 +15,9 @@ module Chess
         chessman.x.should == 8
         chessman.y.should == 8
       end
+      it 'should raise error on invalid position' do
+        lambda { Base.new('A9') }.should raise_error
+      end
     end
   end
 end

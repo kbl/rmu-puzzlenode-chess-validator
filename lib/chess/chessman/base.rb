@@ -8,9 +8,11 @@ module Chess
       attr_reader :x, :y
 
       def initialize(position)
-        p position[0].downcase
-        @x = HORIZONTAL_AXIS.index(position[0].downcase) + ZERO_BASED
-        @y = position[1].to_i
+        pos = position.downcase
+        raise 'illegal argument' unless pos =~ /^[abcdefgh][12345678]$/
+
+        @x = HORIZONTAL_AXIS.index(pos[0]) + ZERO_BASED
+        @y = pos[1].to_i
       end
 
     end
