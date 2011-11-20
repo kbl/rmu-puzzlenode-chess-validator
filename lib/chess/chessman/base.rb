@@ -13,13 +13,10 @@ module Chess
       attr_reader :x, :y, :color
 
       def initialize(position, color)
-        pos = position.downcase
-        raise 'illegal position argument' unless pos =~ /^[abcdefgh][12345678]$/
-        raise 'illegal color argument' unless COLORS.include?(color)
+        @x, @y = Base.cords(position)
 
+        raise 'illegal color argument' unless COLORS.include?(color)
         @color = color
-        @x = HORIZONTAL_AXIS.index(pos[0]) + ZERO_BASED
-        @y = pos[1].to_i
       end
 
 
@@ -27,6 +24,13 @@ module Chess
         [x, y].each { |cord| raise 'illegal argument' unless POSITIONS.include?(cord) }
 
         "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"
+      end
+
+      def self.cords(position)
+        pos = position.downcase
+        raise 'illegal position argument' unless pos =~ /^[abcdefgh][12345678]$/
+
+        [HORIZONTAL_AXIS.index(pos[0]) + ZERO_BASED, pos[1].to_i]
       end
 
       protected
