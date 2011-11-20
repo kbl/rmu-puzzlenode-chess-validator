@@ -25,6 +25,17 @@ module Chess
             p.moves(board).should == []
           end
         end
+
+        context 'movement from first line' do
+          it 'should allow move by 2 field from first line (white)' do
+            p = Pawn.new('b2', :white)
+            p.moves(board).should == ['b3', 'b4']
+          end
+          it 'should allow move by 2 field from first line (black)' do
+            p = Pawn.new('e7', :black)
+            p.moves(board).should == ['e6', 'e5']
+          end
+        end
       end
 
     end

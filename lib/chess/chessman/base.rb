@@ -7,6 +7,9 @@ module Chess
       POSITIONS = 1..8
       ZERO_BASED = 1
 
+      FIRST_LINE_WHITE = 2
+      FIRST_LINE_BLACK = 7
+
       attr_reader :x, :y, :color
 
       def initialize(position, color)
@@ -19,10 +22,25 @@ module Chess
         @y = pos[1].to_i
       end
 
+
       def self.position(x, y)
         [x, y].each { |cord| raise 'illegal argument' unless POSITIONS.include?(cord) }
 
         "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"
+      end
+
+      protected
+
+      def moves_from_positions(cords)
+        moves = []
+        cords.each do |cord|
+          begin
+            moves << Base.position(x + cord[0], y + cord[1])
+          rescue
+          end
+        end
+        
+        moves
       end
 
     end
