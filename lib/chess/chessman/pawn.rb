@@ -6,10 +6,13 @@ module Chess
       def moves(board)
         moves = []
 
-        if color == :white
-          moves << Base.position(x, y + 1)
-        else
-          moves << Base.position(x, y - 1)
+        begin
+          if color == :white
+            moves << Base.position(x, y + 1)
+          else
+            moves << Base.position(x, y - 1)
+          end
+        rescue
         end
         
         moves
