@@ -18,6 +18,10 @@ module Chess
         @y = pos[1].to_i
       end
 
+      def self.position(x, y)
+        "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"
+      end
+
     end
   end
 end
