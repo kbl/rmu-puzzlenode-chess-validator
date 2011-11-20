@@ -28,8 +28,14 @@ module Chess
       end
 
       describe 'Base#position_in_notation' do
-        it 'should create position in notation from numbers[' do
+        it 'should create position in notation from numbers' do
           Base.position(1, 1).should == 'a1'
+        end
+        it 'should raise error for wrong args' do
+          lambda { Base.position(1, 9) }.should raise_error
+          lambda { Base.position(9, 1) }.should raise_error
+          lambda { Base.position(0, 1) }.should raise_error
+          lambda { Base.position(1, 0) }.should raise_error
         end
       end
     end

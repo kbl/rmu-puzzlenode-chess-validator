@@ -4,6 +4,7 @@ module Chess
 
       HORIZONTAL_AXIS = %w[a b c d e f g h]
       COLORS = [:black, :white]
+      POSITIONS = 1..8
       ZERO_BASED = 1
 
       attr_reader :x, :y, :color
@@ -19,6 +20,8 @@ module Chess
       end
 
       def self.position(x, y)
+        [x, y].each { |cord| raise 'illegal argument' unless POSITIONS.include?(cord) }
+
         "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"
       end
 
