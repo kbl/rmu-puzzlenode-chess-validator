@@ -21,9 +21,12 @@ module Chess
 
 
       def self.position(x, y)
-        [x, y].each { |cord| raise 'illegal argument' unless POSITIONS.include?(cord) }
-
+        validate_position(x, y)
         "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"
+      end
+
+      def self.validate_position(x, y)
+        [x, y].each { |cord| raise 'illegal argument' unless POSITIONS.include?(cord) }
       end
 
       def self.cords(position)

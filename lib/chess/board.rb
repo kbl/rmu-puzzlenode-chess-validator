@@ -15,6 +15,7 @@ module Chess
     end
 
     def [](x, y)
+      Chessman::Base.validate_position(x, y)
       @board[y][x]
     end
     def position(position)
