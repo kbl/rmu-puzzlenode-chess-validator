@@ -13,6 +13,13 @@ module Chess
         subject[1, 1].should == p
         subject.field('a1').should == p
       end
+      it 'should be possible to access board by cords #2' do
+        p = Chessman::Pawn.new('C4', :white)                                                                                                      
+        subject << p
+
+        subject[3, 4].should == p
+        subject.field('c4').should == p
+      end
       it 'should raise error on wrong cords' do
         lambda { subject[0, 8] }.should raise_error
         lambda { subject[1, 0] }.should raise_error
