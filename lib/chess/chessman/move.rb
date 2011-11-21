@@ -13,17 +13,25 @@ module Chess
       end
 
       def valid?(chessman)
-        x, y = chessman.x + @move[0], chessman.y + @move[1]
+        # non-thread safety!
+        @chessman = chessman
+        @x, @y = chessman.x + @move[0], chessman.y + @move[1]
 
-        valid_cords = Base.valid_cords?(x, y)
+        valid_cords = Base.valid_cords?(@x, @y)
         valid_color = chessman.color == @color 
         
         if valid_cords && valid_color
-          if @validation
-            [x, y] if @validation.call(chessman, x, y)
-          else
-            [x, y]
-          end
+          call_validation
+        end
+      end
+
+      private 
+
+      def call_validation
+        if @validation
+          [@x, @y] if @validation.call(@chessman, @x, @y)
+        else
+          [@x, @y]
         end
       end
     end
