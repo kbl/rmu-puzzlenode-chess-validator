@@ -25,13 +25,15 @@ module Chess
               p.moves(board).should == []
             end
           end
-          it 'pawn moves one by one field (black)' do
-            p = black('a4')
-            p.moves(board).should == ['a3']
-          end
-          it 'shouldnt allow to move from last line (black)' do
-            p = black('c1')
-            p.moves(board).should == []
+          context 'black' do
+            it 'pawn moves one by one field' do
+              p = black('a4')
+              p.moves(board).should == ['a3']
+            end
+            it 'shouldnt allow to move from last line' do
+              p = black('c1')
+              p.moves(board).should == []
+            end
           end
         end
 
@@ -47,45 +49,76 @@ module Chess
         end
 
         context 'movement to occupied position' do
-          it 'shouldnt allow for movement to occupied position (white)' do
-            p = white('c3')
-            board << black('c4')
+          context 'white' do
+            it 'shouldnt allow for movement to occupied position' do
+              p = white('c3')
+              board << black('c4')
 
-            p.moves(board).should == []
-          end
-          it 'shouldnt allow for movement to occupied position (black)' do
-            p = black('d6')
-            board << black('d5')
-
-            p.moves(board).should == []
-          end
-          context 'movement by two fields' do
-            it 'shouldnt allow for movement to occupied position (white)' do
+              p.moves(board).should == []
+            end
+            it 'shouldnt allow for movement by two fields to occupied position' do
               p = white('E2')
               board << black('e3')
 
               p.moves(board).should == []
             end
-            it 'shouldnt allow for movement to occupied position (white)' do
+          end
+          context 'black' do
+            it 'shouldnt allow for movement to occupied position' do
+              p = black('d6')
+              board << black('d5')
+
+              p.moves(board).should == []
+            end
+            it 'shouldnt allow for movement by two fields to occupied position' do
               p = black('f7')
               board << black('f6')
 
               p.moves(board).should == []
             end
           end
-          context 'capture other chessman' do
-            it 'should be possible to capture different color man' do
-              pending
-              p = black('G5')
-              board << white('f4')
-              board << white('h4')
 
-              p.moves(board).should == ['f4', 'h4', 'g4']
+          context 'capturing' do
+            context 'black' do
+              it 'should be possible to capture different color man' do
+                pending
+                p = black('G5')
+                board << white('f4')
+                board << white('h4')
+
+                p.moves(board).should == ['f4', 'h4', 'g4']
+              end
+              it 'shouldnt be possible to capture same color man' do
+                pending
+                p = black('G5')
+                board << black('f4')
+                board << white('h4')
+
+                p.moves(board).should == ['h4', 'g4']
+              end
+            end
+            context 'white' do
+              it 'should be possible to capture different color man' do
+                pending
+                p = white('C3')
+                board << white('b4')
+                board << white('D4')
+
+                p.moves(board).should == ['b4', 'd4', 'c4']
+              end
+              it 'shouldnt be possible to capture same color man' do
+                pending
+                p = white('c3')
+                board << black('B4')
+                board << white('d4')
+
+                p.moves(board).should == ['b4', 'c4']
+              end
             end
           end
+
         end
       end
-
     end
   end
 end
