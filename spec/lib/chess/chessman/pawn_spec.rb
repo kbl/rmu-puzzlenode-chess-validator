@@ -38,13 +38,23 @@ module Chess
         end
 
         context 'movement to occupied position' do
-          it 'shouldnt allow for movement to occupied position' do
+          it 'shouldnt allow for movement to occupied position (white)' do
             p = Pawn.new('c3', :white)
 
             b = Board.new
             b << Pawn.new('c4', :black)
 
             p.moves(b).should == []
+          end
+          it 'shouldnt allow for movement to occupied position (black)' do
+            p = Pawn.new('d6', :black)
+
+            b = Board.new
+            b << Pawn.new('d5', :black)
+
+            p.moves(b).should == []
+          end
+          context 'movement by two fields' do
           end
         end
       end
