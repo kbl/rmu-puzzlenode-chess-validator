@@ -20,13 +20,14 @@ module Chess
       end
 
 
-      def self.position(x, y)
-        validate_position(x, y)
+      def self.field(x, y)
+        raise 'illegal argument' unless valid_cords?(x, y)
         "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"
       end
 
-      def self.validate_position(x, y)
-        [x, y].each { |cord| raise 'illegal argument' unless POSITIONS.include?(cord) }
+      def self.valid_cords?(x, y)
+        [x, y].each { |cord| return false unless POSITIONS.include?(cord) }
+        true
       end
 
       def self.cords(position)
@@ -38,16 +39,12 @@ module Chess
 
       protected
 
-      def moves_from_positions(cords)
-        moves = []
-        cords.each do |cord|
-          begin
-            moves << Base.position(x + cord[0], y + cord[1])
-          rescue
-          end
+      def fields_from_cords(cords)
+        fields = [] 
+        cords.reject(&:nil?).each do |cord|
+          fields << Base.field(*cord)
         end
-        
-        moves
+        fields
       end
 
     end
