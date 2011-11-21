@@ -11,7 +11,7 @@ module Chess
         subject << p
 
         subject[1, 1].should == p
-        subject.position('a1').should == p
+        subject.field('a1').should == p
       end
       it 'should raise error on wrong cords' do
         lambda { subject[0, 8] }.should raise_error

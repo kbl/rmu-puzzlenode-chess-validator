@@ -15,11 +15,11 @@ module Chess
     end
 
     def [](x, y)
-      Chessman::Base.validate_position(x, y)
+      raise 'illegal argument' unless Chessman::Base.valid_cords?(x, y)
       @board[y][x]
     end
-    def position(position)
-      self.[](*Chessman::Base.cords(position))
+    def field(field)
+      self.[](*Chessman::Base.cords(field))
     end
   end
 end

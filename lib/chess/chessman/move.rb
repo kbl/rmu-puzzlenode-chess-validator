@@ -12,7 +12,7 @@ module Chess
         Move.new([vector_x, vector_y], :black, &validation)
       end
 
-      def valid?(chessman)
+      def valid?(chessman, board)
         # non-thread safety!
         @chessman = chessman
         @x, @y = chessman.x + @move[0], chessman.y + @move[1]
@@ -21,6 +21,7 @@ module Chess
         valid_color = chessman.color == @color 
         
         if valid_cords && valid_color
+          p board[@x, @y]
           call_validation
         end
       end

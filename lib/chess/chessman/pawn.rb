@@ -29,7 +29,7 @@ module Chess
         cords = []
 
         Pawn.moves.each do |move|
-          cords << move.valid?(self)
+          cords << move.valid?(self, board)
         end
 
         fields_from_cords(cords)
