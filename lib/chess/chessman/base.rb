@@ -12,6 +12,16 @@ module Chess
 
       attr_reader :x, :y, :color
 
+      class << self do
+        def white(*args)
+          new(args, :white)
+        end
+
+        def black(*args)
+          new(args, :black)
+        end
+      end
+
       def initialize(position, color)
         @x, @y = Base.cords(position)
 
