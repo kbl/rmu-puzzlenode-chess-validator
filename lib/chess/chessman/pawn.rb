@@ -10,14 +10,14 @@ module Chess
         attr_reader :moves
 
         def create_moves
-          @moves = []
-          @moves << Move.white(0, 1)
-          @moves << Move.white(0, 2) do |chessman|
+          @moves = {white: [], black: []}
+          @moves[:white] << Move.new(0, 1)
+          @moves[:white] << Move.new(0, 2) do |chessman|
             chessman.y == Base::FIRST_LINE_WHITE
           end
 
-          @moves << Move.black(0, -1)
-          @moves << Move.black(0, -2) do |chessman|
+          @moves[:black] << Move.new(0, -1)
+          @moves[:black] << Move.new(0, -2) do |chessman|
             chessman.y == Base::FIRST_LINE_BLACK
           end
         end
@@ -28,7 +28,7 @@ module Chess
       def moves(board)
         cords = []
 
-        Pawn.moves.each do |move|
+        Pawn.moves[color].each do |move|
           cords << move.valid?(self, board)
         end
 

@@ -39,11 +39,13 @@ module Chess
 
         context 'movement to occupied position' do
           it 'shouldnt allow for movement to occupied position' do
+            pending
             p = Pawn.new('c3', :white)
+
             b = Board.new
             b << Pawn.new('c4', :black)
 
-            p.moves(board).should == []
+            p.moves(b).should == []
           end
         end
       end
