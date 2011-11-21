@@ -14,14 +14,14 @@ module Chess
             !board[*move]
           end
           @moves[:white] << Move.new(0, 2) do |chessman, board, move|
-            chessman.y == Base::FIRST_LINE_WHITE && !board[*move]
+            chessman.y == Base::FIRST_LINE_WHITE && !board[*move] && @moves[:white][0].valid?(chessman, board)
           end
 
           @moves[:black] << Move.new(0, -1) do |chessman, board, move|   
             !board[*move]
           end
           @moves[:black] << Move.new(0, -2) do |chessman, board, move|
-            chessman.y == Base::FIRST_LINE_BLACK && !board[*move]
+            chessman.y == Base::FIRST_LINE_BLACK && !board[*move] && @moves[:black][0].valid?(chessman, board)
           end
         end
       end

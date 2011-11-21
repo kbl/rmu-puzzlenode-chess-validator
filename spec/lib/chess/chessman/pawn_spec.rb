@@ -63,11 +63,18 @@ module Chess
           end
           context 'movement by two fields' do
             it 'shouldnt allow for movement to occupied position (white)' do
-              pending
               p = white('E2')
 
               b = Board.new
               b << black('e3')
+
+              p.moves(b).should == []
+            end
+            it 'shouldnt allow for movement to occupied position (white)' do
+              p = black('f7')
+
+              b = Board.new
+              b << black('f6')
 
               p.moves(b).should == []
             end
