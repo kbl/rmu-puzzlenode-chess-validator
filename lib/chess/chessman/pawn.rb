@@ -12,8 +12,8 @@ module Chess
         def create_moves
           @moves = {white: [], black: []}
           @moves[:white] << Move.new(0, 1)
-          @moves[:white] << Move.new(0, 2) do |chessman|
-            chessman.y == Base::FIRST_LINE_WHITE
+          @moves[:white] << Move.new(0, 2) do |chessman, board, move|
+            chessman.y == Base::FIRST_LINE_WHITE && !board[*move]
           end
 
           @moves[:black] << Move.new(0, -1)
