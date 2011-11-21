@@ -6,10 +6,9 @@ module Chess
     class Pawn < Base
       
       class << self
-
         attr_reader :moves
 
-        def create_moves
+        def initialize_moves
           @moves = {white: [], black: []}
           @moves[:white] << Move.new(0, 1) do |chessman, board, move|   
             !board[*move]
@@ -27,7 +26,7 @@ module Chess
         end
       end
 
-      create_moves
+      initialize_moves
 
       def moves(board)
         cords = []

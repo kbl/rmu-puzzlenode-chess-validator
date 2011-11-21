@@ -12,13 +12,13 @@ module Chess
 
       attr_reader :x, :y, :color
 
-      class << self do
+      class << self
         def white(*args)
-          new(args, :white)
+          new(*args, :white)
         end
 
         def black(*args)
-          new(args, :black)
+          new(*args, :black)
         end
       end
 
