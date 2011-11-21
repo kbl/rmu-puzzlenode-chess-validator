@@ -81,38 +81,34 @@ module Chess
           context 'capturing' do
             context 'black' do
               it 'should be possible to capture different color man' do
-                pending
                 p = black('G5')
                 board << white('f4')
                 board << white('h4')
 
-                p.moves(board).should == ['f4', 'h4', 'g4']
+                p.moves(board).should =~ ['f4', 'h4', 'g4']
               end
               it 'shouldnt be possible to capture same color man' do
-                pending
                 p = black('G5')
                 board << black('f4')
                 board << white('h4')
 
-                p.moves(board).should == ['h4', 'g4']
+                p.moves(board).should =~ ['h4', 'g4']
               end
             end
             context 'white' do
               it 'should be possible to capture different color man' do
-                pending
                 p = white('C3')
-                board << white('b4')
-                board << white('D4')
+                board << black('b4')
+                board << black('D4')
 
-                p.moves(board).should == ['b4', 'd4', 'c4']
+                p.moves(board).should =~ ['b4', 'd4', 'c4']
               end
               it 'shouldnt be possible to capture same color man' do
-                pending
                 p = white('c3')
                 board << black('B4')
                 board << white('d4')
 
-                p.moves(board).should == ['b4', 'c4']
+                p.moves(board).should =~ ['b4', 'c4']
               end
             end
           end
