@@ -1,5 +1,6 @@
 require 'rspec'
 require 'chess/chessman/pawn'
 require 'chess/chessman/knight'
+require 'chess/chessman/rook'
 require 'chess/board'
 require 'chess/validator'
