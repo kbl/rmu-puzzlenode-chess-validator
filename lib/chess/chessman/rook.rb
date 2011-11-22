@@ -5,11 +5,14 @@ module Chess
   module Chessman
     class Rook < Base
 
-      def moves(board)
-        cords = []
-
-        fields_from_cords(cords)
+      class << self
+        attr_reader :moves
       end
+
+      def each
+        Rook.moves.each { |m| yield m }
+      end
+
     end
   end
 end

@@ -29,6 +29,16 @@ module Chess
         @color = color
       end
 
+      def moves(board)
+        cords = []
+
+        each do |move|
+          cords << move.valid?(self, board)
+        end
+
+        fields_from_cords(cords)
+      end
+
       def self.field(x, y)
         raise 'illegal argument' unless valid_cords?(x, y)
         "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"

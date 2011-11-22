@@ -46,14 +46,8 @@ module Chess
 
       initialize_moves
 
-      def moves(board)
-        cords = []
-
-        Pawn.moves[color].each do |move|
-          cords << move.valid?(self, board)
-        end
-
-        fields_from_cords(cords)
+      def each
+        Pawn.moves[color].each { |m| yield m }
       end
 
     end

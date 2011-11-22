@@ -38,14 +38,8 @@ module Chess
 
       initialize_moves
 
-      def moves(board)
-        cords = []
-
-        Knight.moves.each do |move|
-          cords << move.valid?(self, board)
-        end
-
-        fields_from_cords(cords)
+      def each
+        Knight.moves.each { |m| yield m }
       end
 
     end
