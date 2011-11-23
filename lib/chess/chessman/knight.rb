@@ -26,13 +26,13 @@ module Chess
 
         def fill_moves
           @moves << Move.new(-1, -2, &@validator)
-          @moves << Move.new(1, -2, &@validator)
+          @moves << Move.new( 1, -2, &@validator)
           @moves << Move.new(-2, -1, &@validator)
-          @moves << Move.new(2, -1, &@validator)
-          @moves << Move.new(-2, 1, &@validator)
-          @moves << Move.new(2, 1, &@validator)
-          @moves << Move.new(-1, 2, &@validator)
-          @moves << Move.new(1, 2, &@validator)
+          @moves << Move.new( 2, -1, &@validator)
+          @moves << Move.new(-2,  1, &@validator)
+          @moves << Move.new( 2,  1, &@validator)
+          @moves << Move.new(-1,  2, &@validator)
+          @moves << Move.new( 1,  2, &@validator)
         end
       end
 

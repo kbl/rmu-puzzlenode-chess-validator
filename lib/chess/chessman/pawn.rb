@@ -34,12 +34,12 @@ module Chess
 
         def fill_moves
           { white: UPWARDS, black: DOWNWARDS }.each do |color, direction|
-            @moves[color] << Move.new(0, 1 * direction) do |chessman, board, move|   
+            @moves[color] << Move.new( 0, 1 * direction) do |chessman, board, move|   
               !board[*move]
             end
-            @moves[color] << Move.new(0, 2 * direction, &@first_line_validation)
+            @moves[color] << Move.new( 0, 2 * direction, &@first_line_validation)
             @moves[color] << Move.new(-1, 1 * direction, &@capturing_validation)
-            @moves[color] << Move.new(1, 1 * direction, &@capturing_validation)
+            @moves[color] << Move.new( 1, 1 * direction, &@capturing_validation)
           end
         end
       end
