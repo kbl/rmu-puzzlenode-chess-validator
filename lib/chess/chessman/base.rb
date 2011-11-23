@@ -49,11 +49,11 @@ module Chess
         true
       end
 
-      def self.cords(position)
-        pos = position.downcase
-        raise 'illegal position argument' unless pos =~ /^[abcdefgh][12345678]$/
+      def self.cords(field)
+        fi = field.downcase
+        raise 'illegal field argument' unless fi =~ /^[abcdefgh][12345678]$/
 
-        [HORIZONTAL_AXIS.index(pos[0]) + ZERO_BASED, pos[1].to_i]
+        [HORIZONTAL_AXIS.index(fi[0]) + ZERO_BASED, fi[1].to_i]
       end
 
       protected
