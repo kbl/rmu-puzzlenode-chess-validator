@@ -13,7 +13,6 @@ module Chess
         end
 
         it 'shouldnt allow for moving beyond other chessman' do
-          pending
           board << Pawn.white('a2')
 
           r = Rook.white('a1')

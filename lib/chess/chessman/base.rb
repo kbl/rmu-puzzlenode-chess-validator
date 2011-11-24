@@ -60,7 +60,7 @@ module Chess
 
       def fields_from_cords(cords)
         fields = [] 
-        cords.reject(&:nil?).reject(&:empty?).each do |cord|
+        cords.reject(&:nil?).each do |cord|
           fields << Base.field(*cord)
         end
         fields
