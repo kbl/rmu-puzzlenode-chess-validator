@@ -6,7 +6,6 @@ module Chess
       end
 
       def valid?(chessman, board)
-        # non-thread safety!
         @chessman, @board = chessman, board
         @move_cords = [chessman.x + @move_vector[0], chessman.y + @move_vector[1]]
 

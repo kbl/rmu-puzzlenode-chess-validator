@@ -1,0 +1,8 @@
+require 'spec_helper'
+
+module Chess
+  module Chessman
+    describe MoveSequence do
+    end
+  end
+end
