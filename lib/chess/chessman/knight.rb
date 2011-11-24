@@ -20,7 +20,7 @@ module Chess
         def create_validator
           @validator = Proc.new do |chessman, board, move|
             new_chessman = board[*move]
-            !new_chessman ||  new_chessman.color != chessman.color
+            !new_chessman || new_chessman.color != chessman.color
           end
         end
 

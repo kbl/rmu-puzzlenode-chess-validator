@@ -12,7 +12,8 @@ module Chess
           @moves = []
 
           @validator = Proc.new do |chessman, board, move|
-            !board[*move]
+            other_chessman = board[*move]
+            !other_chessman || other_chessman.color != chessman.color
           end
 
           left_bottom = (-7..-1).to_a.reverse
