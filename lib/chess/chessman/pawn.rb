@@ -1,5 +1,6 @@
 require 'chess/chessman/base'
 require 'chess/chessman/move'
+require 'chess/chessman/move_sequence'
 
 module Chess
   module Chessman
@@ -28,16 +29,19 @@ module Chess
 
           @first_line_validation = Proc.new do |chessman, board, move|
             first_line = Base.const_get("FIRST_LINE_#{chessman.color.upcase}")
-            chessman.y == first_line && !board[*move] && @moves[chessman.color][0].valid?(chessman, board)
+            chessman.y == first_line && !board[*move]
           end
         end
 
         def fill_moves
           { white: UPWARDS, black: DOWNWARDS }.each do |color, direction|
-            @moves[color] << Move.new( 0, 1 * direction) do |chessman, board, move|   
+            sequence = MoveSequence.new
+            sequence << Move.new(0, 1 * direction) do |chessman, board, move|   
               !board[*move]
-            end
-            @moves[color] << Move.new( 0, 2 * direction, &@first_line_validation)
+            end               
+            sequence << Move.new( 0, 2 * direction, &@first_line_validation)
+            @moves[color] << sequence
+
             @moves[color] << Move.new(-1, 1 * direction, &@capturing_validation)
             @moves[color] << Move.new( 1, 1 * direction, &@capturing_validation)
           end
