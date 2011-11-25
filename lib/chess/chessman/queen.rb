@@ -3,10 +3,14 @@ require 'chess/chessman/base'
 module Chess
   module Chessman
     class Queen < Base
-      
+
       def initialize(position, color)
         super
         initialize_possible_moves
+      end
+
+      def to_s
+        "Q#{@field}"
       end
 
       private

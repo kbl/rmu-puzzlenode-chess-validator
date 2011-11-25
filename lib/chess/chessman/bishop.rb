@@ -31,6 +31,10 @@ module Chess
         initialize_possible_moves
       end
 
+      def to_s
+        "B#{@field}"
+      end
+
       private
 
       include BishoplikeMovement

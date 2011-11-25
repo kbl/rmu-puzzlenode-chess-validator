@@ -4,7 +4,8 @@ module Chess
       class Validator
 
         def self.new_sequence_validator(color)
-          Validator.new do |chessman, move|
+          Validator.new do |board, cords, move|
+            chessman = board[*cords]
             if !chessman
               true
             else
@@ -20,11 +21,11 @@ module Chess
           @validation_block = validation_block
         end
 
-        def valid?(board, cords, sequence = nil)
-          if sequence
-            @validation_block.call(board[*cords], sequence)
+        def valid?(board, cords, move = nil)
+          if move
+            @validation_block.call(board, cords, move)
           else
-            @validation_block.call(board[*cords])
+            @validation_block.call(board, cords)
           end
         end
 

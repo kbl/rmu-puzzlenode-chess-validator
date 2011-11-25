@@ -13,7 +13,7 @@ module Chess
       POSITIONS = 1..8
       ZERO_BASED = 1
 
-      attr_reader :x, :y, :color
+      attr_reader :x, :y, :color, :field
 
       class << self
         def white(*args)
@@ -25,8 +25,9 @@ module Chess
         end
       end
 
-      def initialize(position, color)
-        @x, @y = Base.cords(position)
+      def initialize(field, color)
+        @field = field
+        @x, @y = Base.cords(field)
 
         raise "illegal color argument #{color}" unless COLORS.include?(color)
         @color = color

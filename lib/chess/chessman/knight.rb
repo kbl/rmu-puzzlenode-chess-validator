@@ -15,11 +15,16 @@ module Chess
         initialize_possible_moves
       end
 
+      def to_s
+        "N#{@field}"
+      end
+
       private
 
       def initialize_validator
-        @validator = Validator.new do |chessman|
-          !chessman || chessman.color != color
+        @validator = Validator.new do |board, cords|
+          chessman = board[*cords]
+          !chessman || chessman.color != @color
         end
       end
 

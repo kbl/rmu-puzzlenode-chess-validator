@@ -58,5 +58,19 @@ module Chess
         end
       end
     end
+
+    describe 'Board#check?' do
+      it 'should properly find checked fields for knight' do
+        subject << Chessman::Knight.white('a1')
+        subject.check?(:black, 'c2').should be_true
+        subject.check?(:black, 'b3').should be_true
+      end
+
+      it 'should properly differentiate color for checked fields' do
+        subject << Chessman::Knight.white('a1')
+        subject.check?(:white, 'c2').should be_false
+        subject.check?(:white, 'b3').should be_false
+      end
+    end
   end
 end

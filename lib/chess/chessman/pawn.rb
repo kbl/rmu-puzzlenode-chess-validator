@@ -12,11 +12,15 @@ module Chess
 
       BLACK = [[0, -1], [0, -2]]
       BLACK_CAPTURING = [[-1, -1], [1, -1]]
-      
+
       def initialize(position, color)
         super
         initialize_validators
         initialize_possible_moves
+      end
+
+      def to_s
+        "P#{@field}"
       end
 
       private
@@ -52,16 +56,18 @@ module Chess
       end
 
       def initialize_validators
-        @capturing_validator = Validator.new do |chessman|
-          chessman && chessman.color != color
-        end                                
+        @capturing_validator = Validator.new do |board, cords|
+          chessman = board[*cords]
+          chessman && chessman.color != @color
+        end
 
-        @first_line_validator = Validator.new do |field_occupied, move|
+        @first_line_validator = Validator.new do |board, cords, move|
+          chessman = board[*cords]
           unless first_line?
             move.stop_sequence!
           end
 
-          !field_occupied
+          !chessman
         end
       end
 

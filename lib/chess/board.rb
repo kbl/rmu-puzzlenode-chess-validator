@@ -21,5 +21,22 @@ module Chess
     def field(field)
       self.[](*Chessman::Base.cords(field))
     end
+
+    def check?(color, field)
+      unless @check
+        initialize_check
+      end
+      @check[color].include?(field)
+    end
+
+    private
+
+    def initialize_check
+      p @board
+      x = @board.reject(&:empty?)
+
+      p x
+    end
+
   end
 end

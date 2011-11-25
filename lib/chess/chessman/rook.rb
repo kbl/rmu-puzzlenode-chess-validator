@@ -32,6 +32,10 @@ module Chess
         initialize_possible_moves
       end
 
+      def to_s
+        "R#{@field}"
+      end
+
       private
 
       include RooklikeMovement
