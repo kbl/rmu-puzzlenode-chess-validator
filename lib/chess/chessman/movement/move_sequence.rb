@@ -5,6 +5,7 @@ module Chess
 
         def initialize
           @moves = []
+          @stopped = false
         end
 
         def <<(move)
@@ -21,6 +22,7 @@ module Chess
           @moves.each do |move|
             break unless move.valid?(board)
             @cords << move.cords
+            break if move.sequence_stopped?
           end
           @cords.flatten!(1)
           !@cords.empty?

@@ -7,8 +7,12 @@ module Chess
           @validation_block = validation_block
         end
 
-        def valid?(board, cords)
-          @validation_block.call(board[*cords])
+        def valid?(board, cords, sequence = nil)
+          if sequence
+            @validation_block.call(board[*cords], sequence)
+          else
+            @validation_block.call(board[*cords])
+          end
         end
 
       end

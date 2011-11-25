@@ -51,11 +51,11 @@ module Chess
         vectors.each do |vector|
           cords = cords_from_vector(*vector)
           break unless cords
-          sequence << Move.new(cords, @empty_field_validator)
+          sequence << Move.new(cords, @first_line_validator, :breaking)
         end
         @possible_moves << sequence
 
-        white_capturing.each do |vector|
+        vectors_capturing.each do |vector|
           cord = cords_from_vector(*vector)
           @possible_moves << Move.new(cord, @capturing_validator) if cord
         end
@@ -66,12 +66,12 @@ module Chess
           chessman && chessman.color != color
         end                                
 
-        @first_line_validator = Validator.new do |chessman|
-          first_line? && !chessman
-        end
+        @first_line_validator = Validator.new do |field_occupied, sequence|
+          unless first_line?
+            sequence.stop!
+          end
 
-        @empty_field_validator = Validator.new do |chessman|
-          !chessman
+          !field_occupied
         end
       end
 
