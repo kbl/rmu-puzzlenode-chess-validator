@@ -3,16 +3,24 @@ module Chess
     module Movement
       class Validator
 
-        def self.new_sequence_validator(color)
-          Validator.new do |board, cords, move|
-            chessman = board[*cords]
-            if !chessman
+        class << self
+          def no_op
+            Validator.new do |board, cords, move|
               true
-            else
-              could_be_captured = chessman.color != color
-              move.stop_sequence! if could_be_captured
-            
-              could_be_captured
+            end
+          end
+
+          def new_sequence_validator(color)
+            Validator.new do |board, cords, move|
+              chessman = board[*cords]
+              if !chessman
+                true
+              else
+                could_be_captured = chessman.color != color
+                move.stop_sequence! if could_be_captured
+              
+                could_be_captured
+              end
             end
           end
         end

@@ -30,10 +30,14 @@ module Chess
 
       def initialize_possible_moves
         @possible_moves = []
+        @capturing_moves = []
 
         MOVES_VECTORS.each do |vector|
           cords = cords_from_vector(*vector)
-          @possible_moves << Move.new(cords, @validator) if cords
+          if cords
+            @possible_moves << Move.new(cords, @validator)
+            @capturing_moves << Move.new(cords)
+          end
         end
       end
 

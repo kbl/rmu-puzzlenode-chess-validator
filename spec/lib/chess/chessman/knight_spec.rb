@@ -3,10 +3,10 @@ require 'spec_helper'
 module Chess
   module Chessman
     describe Knight do
+
+      let(:board) { Board.new }
+
       describe 'Knight#moves' do
-
-        let(:board) { Board.new }
-
         context 'empty board' do
           it 'should allow for 8 moves on empty board' do
             k = Knight.white('d4')
@@ -30,6 +30,15 @@ module Chess
 
             k.moves(board).should =~ ['a6', 'c6']
           end
+        end
+      end
+
+      describe 'Knight#capture_moves' do
+        it 'should properly find capturing moves' do
+          k = Knight.white('b8')
+          board << Pawn.white('d7')
+
+          k.capturing_moves(board).should =~ ['a6', 'c6', 'd7']
         end
       end
     end

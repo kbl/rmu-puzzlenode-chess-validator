@@ -5,7 +5,7 @@ module Chess
 
         attr_accessor :stop_sequence
         
-        def initialize(cords, validator, sequence_stopping = false)
+        def initialize(cords, validator = Validator.no_op, sequence_stopping = false)
           @cords, @validator, @sequence_stopping = cords, validator, sequence_stopping
           @sequence_stopped = false
         end

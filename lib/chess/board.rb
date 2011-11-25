@@ -1,4 +1,5 @@
 require 'chess/chessman/base'
+require 'set'
 
 module Chess
   class Board
@@ -32,10 +33,11 @@ module Chess
     private
 
     def initialize_check
-      p @board
-      x = @board.reject(&:empty?)
+      @check = { white: Set.new, black: Set.new }
 
-      p x
+      @board.flatten.each do |chessman|
+        @check[chessman.color] << chessman.capturing_moves(self)
+      end
     end
 
   end

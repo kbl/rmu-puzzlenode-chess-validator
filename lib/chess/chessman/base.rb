@@ -34,13 +34,17 @@ module Chess
       end
 
       def moves(board)
-        cords = []
-        @possible_moves.each do |move|
-          cords << move.cords if move.valid?(board)
-        end
-        cords.flatten!(1)
+        return @fields if @fields
+        cords = prepare_valid_cords(@possible_moves, board)
 
-        fields_from_cords(cords)
+        @fields = fields_from_cords(cords)
+      end
+
+      def capturing_moves(board)
+        return @capturing_fields if @capturing_fields
+        cords = prepare_valid_cords(@capturing_moves, board)
+
+        @capturing_fields = fields_from_cords(cords)
       end
 
       def white?
@@ -77,6 +81,18 @@ module Chess
       def cords_from_vector(x, y)
         cords = [@x + x, @y + y]
         cords if Base.valid_cords?(*cords)
+      end
+
+      private
+
+      def prepare_valid_cords(moves, board)
+        cords = []
+        moves.each do |move|
+          cords << move.cords if move.valid?(board)
+        end
+        cords.flatten!(1)
+
+        cords
       end
 
     end
