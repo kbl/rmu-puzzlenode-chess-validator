@@ -3,19 +3,12 @@ require 'chess/chessman/rook'
 
 module Chess
   module Chessman
-    class Bishop < Base
 
-      def initialize(position, color)
-        super
-        initialize_possible_moves
-      end
+    module BishoplikeMovement
 
-      private
+      include Movement
 
-      def initialize_possible_moves
-        @validator = Validator.new_sequence_validator(@color)
-        @possible_moves = []
-
+      def apply_bishoplike_movement
         MoveSequence::SEQUENCES.each do |vector_sequence|
           sequence1 = MoveSequence.new
           sequence2 = MoveSequence.new
@@ -31,7 +24,25 @@ module Chess
           @possible_moves << sequence2 unless sequence2.empty?
         end
       end
-
     end
+
+    class Bishop < Base
+      def initialize(position, color)
+        super
+        initialize_possible_moves
+      end
+
+      private
+
+      include BishoplikeMovement
+
+      def initialize_possible_moves
+        @validator = Validator.new_sequence_validator(@color)
+        @possible_moves = []
+
+        apply_bishoplike_movement
+      end
+    end
+
   end
 end
