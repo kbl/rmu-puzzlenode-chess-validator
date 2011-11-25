@@ -2,19 +2,12 @@ require 'chess/chessman/base'
 
 module Chess
   module Chessman
-    class Rook < Base
 
-      def initialize(position, color)
-        super
-        initialize_possible_moves
-      end
+    module RooklikeMovement
 
-      private
+      include Movement
 
-      def initialize_possible_moves
-        @validator = Validator.new_sequence_validator(@color)
-        @possible_moves = []
-          
+      def apply_rooklike_movement
         MoveSequence::SEQUENCES.each do |vector_sequence|
           sequence_row = MoveSequence.new
           sequence_column = MoveSequence.new
@@ -31,7 +24,25 @@ module Chess
           @possible_moves << sequence_column unless sequence_column.empty?
         end
       end
-
     end
+
+    class Rook < Base
+      def initialize(position, color)
+        super
+        initialize_possible_moves
+      end
+
+      private
+
+      include RooklikeMovement
+
+      def initialize_possible_moves
+        @validator = Validator.new_sequence_validator(@color)
+        @possible_moves = []
+
+        apply_rooklike_movement
+      end
+    end
+
   end
 end
