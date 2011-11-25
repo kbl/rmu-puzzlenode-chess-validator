@@ -20,11 +20,11 @@ module Chess
       def initialize_possible_moves
         @possible_moves = []
           
-        MOVE_SEQUENCES.each do |sequence|
+        MOVE_SEQUENCES.each do |vector_sequence|
           sequence_row = MoveSequence.new
           sequence_column = MoveSequence.new
 
-          sequence.each do |vector|
+          vector_sequence.each do |vector|
             cords_row = cords_from_vector(vector, 0)
             cords_column = cords_from_vector(0, vector)
 
