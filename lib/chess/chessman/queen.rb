@@ -11,9 +11,14 @@ module Chess
 
       private
 
+      include BishoplikeMovement, RooklikeMovement
+
       def initialize_possible_moves
         @validator = Validator.new_sequence_validator(@color)
         @possible_moves = []
+
+        apply_bishoplike_movement
+        apply_rooklike_movement
       end
 
     end
