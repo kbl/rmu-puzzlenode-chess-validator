@@ -7,26 +7,13 @@ module Chess
 
       def initialize(position, color)
         super
-        initialize_validator
         initialize_possible_moves
       end
 
       private
 
-      def initialize_validator
-        @validator = Validator.new do |chessman, move|
-          if !chessman
-            true
-          else
-            could_be_captured = chessman.color != color
-            move.stop_sequence! if could_be_captured
-          
-            could_be_captured
-          end
-        end
-      end
-
       def initialize_possible_moves
+        @validator = Validator.new_sequence_validator(@color)
         @possible_moves = []
 
         MoveSequence::SEQUENCES.each do |vector_sequence|
