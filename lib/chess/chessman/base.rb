@@ -28,18 +28,18 @@ module Chess
       def initialize(position, color)
         @x, @y = Base.cords(position)
 
-        raise 'illegal color argument' unless COLORS.include?(color)
+        raise "illegal color argument #{color}" unless COLORS.include?(color)
         @color = color
       end
 
       def moves(board)
         cords = []
-
         @possible_moves.each do |move|
           cords << move.cords if move.valid?(board)
         end
+        cords.flatten!(1)
 
-        fields_from_cords(cords.flatten(1))
+        fields_from_cords(cords)
       end
 
       def white?
@@ -47,7 +47,7 @@ module Chess
       end
 
       def self.field(x, y)
-        raise 'illegal argument' unless valid_cords?(x, y)
+        raise "illegal argument #{x}, #{y}" unless valid_cords?(x, y)
         "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"
       end
 
@@ -58,7 +58,7 @@ module Chess
 
       def self.cords(field)
         fi = field.downcase
-        raise 'illegal field argument' unless fi =~ /^[abcdefgh][12345678]$/
+        raise "illegal field argument #{fi}" unless fi =~ /^[abcdefgh][12345678]$/
 
         [HORIZONTAL_AXIS.index(fi[0]) + ZERO_BASED, fi[1].to_i]
       end
