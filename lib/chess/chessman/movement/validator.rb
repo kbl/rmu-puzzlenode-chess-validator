@@ -4,13 +4,13 @@ module Chess
       class Validator
 
         class << self
-          def no_op
+          def no_op_validator
             Validator.new do |board, cords, move|
               true
             end
           end
 
-          def new_sequence_validator(color)
+          def sequence_validator(color)
             Validator.new do |board, cords, move|
               chessman = board[*cords]
               if !chessman
@@ -20,6 +20,17 @@ module Chess
                 move.stop_sequence! if could_be_captured
               
                 could_be_captured
+              end
+            end
+          end
+          def sequence_capturig_validator(color)
+            Validator.new do |board, cords, move|
+              chessman = board[*cords]
+              if !chessman
+                true
+              else
+                move.stop_sequence!
+                true
               end
             end
           end
