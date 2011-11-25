@@ -17,8 +17,8 @@ module Chess
       private
 
       def initialize_validator
-        @validator = Validator.new(self) do |chessman, destination_chessman|
-          !destination_chessman || destination_chessman.color != chessman.color
+        @validator = Validator.new do |chessman|
+          !chessman || chessman.color != color
         end
       end
 

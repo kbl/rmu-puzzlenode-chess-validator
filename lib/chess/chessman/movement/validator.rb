@@ -3,12 +3,12 @@ module Chess
     module Movement
       class Validator
 
-        def initialize(chessman, &validation_block)
-          @chessman, @validation_block = chessman, validation_block
+        def initialize(&validation_block)
+          @validation_block = validation_block
         end
 
         def valid?(board, cords)
-          @validation_block.call(@chessman, board[*cords])
+          @validation_block.call(board[*cords])
         end
 
       end

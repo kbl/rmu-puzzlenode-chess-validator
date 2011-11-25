@@ -22,6 +22,14 @@ module Chess
 
       private
 
+      def first_line?
+        if white?
+          @y == FIRST_LINE_WHITE
+        else
+          @y == FIRST_LINE_BLACK
+        end
+      end
+
       def initialize_possible_moves
         @possible_moves = []
 
@@ -54,17 +62,16 @@ module Chess
       end
 
       def initialize_validators
-        @capturing_validator = Validator.new(self) do |chessman, destination_chessman|
-          destination_chessman && destination_chessman.color != chessman.color
+        @capturing_validator = Validator.new do |chessman|
+          chessman && chessman.color != color
         end                                
 
-        @first_line_validator = Validator.new do |chessman, destination_chessman|
-          first_line = Pawn.const_get("FIRST_LINE_#{chessman.color.upcase}")
-          chessman.y == first_line && !destination_chessman
+        @first_line_validator = Validator.new do |chessman|
+          first_line? && !chessman
         end
 
-        @empty_field_validator = Validator.new do |chessman, destination_chessman|
-          !destination_chessman
+        @empty_field_validator = Validator.new do |chessman|
+          !chessman
         end
       end
 
