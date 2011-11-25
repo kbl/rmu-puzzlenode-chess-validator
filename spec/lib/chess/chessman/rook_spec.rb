@@ -20,11 +20,18 @@ module Chess
         end
 
         it 'shouldnt allow for moving beyond captured chessman' do
-          pending
           board << Pawn.black('a2')
 
           r = Rook.white('a1')
           r.moves(board).should =~ ['a2', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1']
+        end
+
+        it 'shouldnt allow for moving beyond captured chessman #2' do
+          board << Pawn.black('a2')
+          board << Pawn.white('f1')
+
+          r = Rook.white('a1')
+          r.moves(board).should =~ ['a2', 'b1', 'c1', 'd1', 'e1']
         end
 
       end
