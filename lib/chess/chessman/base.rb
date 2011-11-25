@@ -1,6 +1,11 @@
+require 'chess/chessman/movement/move'
+require 'chess/chessman/movement/move_sequence'
+
 module Chess
   module Chessman
     class Base
+
+      extend Movement
 
       HORIZONTAL_AXIS = %w[a b c d e f g h]
       COLORS = [:black, :white]

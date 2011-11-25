@@ -1,5 +1,4 @@
 require 'chess/chessman/base'
-require 'chess/chessman/move'
 
 module Chess
   module Chessman
