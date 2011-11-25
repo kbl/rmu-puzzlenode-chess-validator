@@ -4,11 +4,6 @@ module Chess
   module Chessman
     class Rook < Base
 
-      MOVE_SEQUENCES = [
-          (-7..-1).to_a.reverse, # left, bottom
-          (1..7).to_a # right, up
-      ]
-
       def initialize(position, color)
         super
         initialize_validator
@@ -20,7 +15,7 @@ module Chess
       def initialize_possible_moves
         @possible_moves = []
           
-        MOVE_SEQUENCES.each do |vector_sequence|
+        MoveSequence::SEQUENCES.each do |vector_sequence|
           sequence_row = MoveSequence.new
           sequence_column = MoveSequence.new
 

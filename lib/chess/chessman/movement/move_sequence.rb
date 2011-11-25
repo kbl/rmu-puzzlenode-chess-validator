@@ -3,6 +3,11 @@ module Chess
     module Movement
       class MoveSequence
 
+        SEQUENCES = [
+            (-7..-1).to_a.reverse, # left, bottom
+            (1..7).to_a # right, up
+        ]
+
         def initialize
           @moves = []
           @stopped = false

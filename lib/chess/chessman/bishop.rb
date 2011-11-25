@@ -29,7 +29,7 @@ module Chess
       def initialize_possible_moves
         @possible_moves = []
 
-        Rook::MOVE_SEQUENCES.each do |vector_sequence|
+        MoveSequence::SEQUENCES.each do |vector_sequence|
           sequence1 = MoveSequence.new
           sequence2 = MoveSequence.new
 
