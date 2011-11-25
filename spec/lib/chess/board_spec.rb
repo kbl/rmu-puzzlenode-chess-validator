@@ -27,9 +27,9 @@ module Chess
         lambda { subject[1, 9] }.should raise_error(RuntimeError, 'illegal argument')
       end
       it 'should raise error on wrong position' do
-        lambda { subject.field('J1') }.should raise_error(RuntimeError, 'illegal field argument')
-        lambda { subject.field('a0') }.should raise_error(RuntimeError, 'illegal field argument')
-        lambda { subject.field('A9') }.should raise_error(RuntimeError, 'illegal field argument')
+        lambda { subject.field('J1') }.should raise_error(RuntimeError, 'illegal field argument j1')
+        lambda { subject.field('a0') }.should raise_error(RuntimeError, 'illegal field argument a0')
+        lambda { subject.field('A9') }.should raise_error(RuntimeError, 'illegal field argument a9')
       end
       context 'corners' do
         it 'should be possible to access bottom left corner' do

@@ -4,20 +4,19 @@ module Chess
   module Chessman
     class Pawn < Base
 
-      UPWARDS = 1
-      DOWNWARDS = -1
-
       FIRST_LINE_WHITE = 2
       FIRST_LINE_BLACK = 7
+
+      WHITE = [[0, 1], [0, 2]]
+      WHITE_CAPTURING = [[-1, 1], [1, 1]]
+
+      BLACK = [[0, -1], [0, -2]]
+      BLACK_CAPTURING = [[-1, -1], [1, -1]]
       
       def initialize(position, color)
         super
         initialize_validators
         initialize_possible_moves
-      end
-
-      def each
-        @possible_moves.each { |m| yield m }
       end
 
       private
@@ -33,18 +32,9 @@ module Chess
       def initialize_possible_moves
         @possible_moves = []
 
-        white = [[0, 1], [0, 2]]
-        white_capturing = [[-1, 1], [1, 1]]
-
-        black = [[0, -1], [0, -2]]
-        black_capturing = [[-1, -1], [1, -1]]
-
+        vectors, vectors_capturing = BLACK, BLACK_CAPTURING
         if white?
-          vectors = white
-          vectors_capturing = white_capturing
-        else
-          vectors = black;
-          vectors_capturing = black_capturing
+          vectors, vectors_capturing = WHITE, WHITE_CAPTURING
         end
 
         sequence = MoveSequence.new
@@ -66,9 +56,9 @@ module Chess
           chessman && chessman.color != color
         end                                
 
-        @first_line_validator = Validator.new do |field_occupied, sequence|
+        @first_line_validator = Validator.new do |field_occupied, move|
           unless first_line?
-            sequence.stop!
+            move.stop_sequence!
           end
 
           !field_occupied

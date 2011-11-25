@@ -16,6 +16,10 @@ module Chess
           @cords
         end
 
+        def empty?
+          @moves.empty?
+        end
+
         def valid?(board)
           @cords = []
 

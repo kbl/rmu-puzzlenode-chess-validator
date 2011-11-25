@@ -10,41 +10,50 @@ module Chess
         initialize_possible_moves
       end
 
-      def each
-        @possible_moves.each { |m| yield m }
-      end
-
       private
-
-      def initialize_validator
-        @validator = Validator.new do |chessman|
-          !chessman || chessman.color != color
-        end
-      end
 
       def initialize_possible_moves
         @possible_moves = []
 
-        left_bottom = (-7..-1).to_a.reverse
-        right_up = (1..7).to_a
-
-        left_sequence = MoveSequence.new
-        bottom_sequence = MoveSequence.new
-        left_bottom.each do |value|
-          bottom_sequence << Move.new(0, value, @validator)
-          left_sequence << Move.new(value, 0, @validator)
+        sequences_row = [
+          left = (-7..-1).to_a.reverse,
+          right = (1..7).to_a]
+        sequences_column = [
+          up = (1..7).to_a,
+          bottom = (-7..-1).to_a.reverse]
+          
+        sequences_row.each do |row|
+          sequence = MoveSequence.new
+          row.each do |vector_x|
+            cords = cords_from_vector(vector_x, 0)
+            break unless cords
+            sequence << Move.new(cords, @validator, :braking)
+          end
+          @possible_moves << sequence unless sequence.empty?
         end
-        @moves << left_sequence
-        @moves << bottom_sequence
 
-        right_sequence = MoveSequence.new
-        up_sequence = MoveSequence.new
-        right_up.each do |value|
-          up_sequence << Move.new(0, value, @validator)
-          right_sequence << Move.new(value, 0, @validator)
+        sequences_column.each do |column|
+          sequence = MoveSequence.new
+          column.each do |vector_y|
+            cords = cords_from_vector(0, vector_y)
+            break unless cords
+            sequence << Move.new(cords, @validator, :braking)
+          end
+          @possible_moves << sequence unless sequence.empty?
         end
-        @moves << right_sequence
-        @moves << up_sequence
+      end
+
+      def initialize_validator
+        @validator = Validator.new do |chessman, move|
+          if !chessman
+            true
+          else
+            could_be_captured = chessman.color != color
+            move.stop_sequence! if could_be_captured
+          
+            could_be_captured
+          end
+        end
       end
 
     end

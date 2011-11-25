@@ -26,7 +26,7 @@ module Chess
           [@cords]
         end
 
-        def stop!
+        def stop_sequence!
           @sequence_stopped = true
         end
 
