@@ -13,9 +13,6 @@ module Chess
       POSITIONS = 1..8
       ZERO_BASED = 1
 
-      FIRST_LINE_WHITE = 2
-      FIRST_LINE_BLACK = 7
-
       attr_reader :x, :y, :color
 
       class << self

@@ -3,6 +3,7 @@ require 'chess/chessman/base'
 module Chess
   module Chessman
     class Knight < Base
+
       MOVES_VECTORS = [[-1, -2], [ 1, -2],
                        [-2, -1], [ 2, -1],
                        [-2,  1], [ 2,  1],
@@ -10,7 +11,7 @@ module Chess
 
       def initialize(position, color)
         super
-        create_validator
+        initialize_validator
         initialize_possible_moves
       end
 
@@ -19,14 +20,14 @@ module Chess
       end
 
       private
-      
-      def create_validator
+
+      def initialize_validator
         @validator = Validator.new(self) do |chessman, destination_chessman|
           !destination_chessman || destination_chessman.color != chessman.color
         end
       end
 
-      def initialize_possible_moves do
+      def initialize_possible_moves
         @possible_moves = []
 
         MOVES_VECTORS.each do |vector|
