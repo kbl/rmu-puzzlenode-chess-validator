@@ -37,6 +37,7 @@ module Chess
         it 'should properly find capturing moves' do
           k = Knight.white('b8')
           board << Pawn.white('d7')
+          board << Pawn.black('c6')
 
           k.capturing_moves(board).should =~ ['a6', 'c6', 'd7']
         end
