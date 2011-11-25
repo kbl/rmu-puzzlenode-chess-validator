@@ -20,28 +20,30 @@ module Chess
         private
 
         def create_validations
-          @capturing_validation = Proc.new do |chessman, board, move|
+          @capturing_validator = Validator.new do |chessman, board, move|
             other_chessman = board[*move]
             other_chessman && other_chessman.color != chessman.color
           end                                
 
-          @first_line_validation = Proc.new do |chessman, board, move|
+          @first_line_validator = Validator.new do |chessman, board, move|
             first_line = Base.const_get("FIRST_LINE_#{chessman.color.upcase}")
             chessman.y == first_line && !board[*move]
+          end
+
+          @empty_field_validator = Validator.new do |chessman, board, move|
+            !board[*move]
           end
         end
 
         def fill_moves
           { white: UPWARDS, black: DOWNWARDS }.each do |color, direction|
             sequence = MoveSequence.new
-            sequence << Move.new(0, 1 * direction) do |chessman, board, move|   
-              !board[*move]
-            end               
-            sequence << Move.new( 0, 2 * direction, &@first_line_validation)
+            sequence << Move.new(0, 1 * direction, @empty_field_validator)
+            sequence << Move.new( 0, 2 * direction, @first_line_validator)
             @moves[color] << sequence
 
-            @moves[color] << Move.new(-1, 1 * direction, &@capturing_validation)
-            @moves[color] << Move.new( 1, 1 * direction, &@capturing_validation)
+            @moves[color] << Move.new(-1, 1 * direction, @capturing_validator)
+            @moves[color] << Move.new( 1, 1 * direction, @capturing_validator)
           end
         end
       end

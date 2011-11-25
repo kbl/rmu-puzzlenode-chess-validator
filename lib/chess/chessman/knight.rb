@@ -17,21 +17,21 @@ module Chess
         private
 
         def create_validator
-          @validator = Proc.new do |chessman, board, move|
+          @validator = Validator.new do |chessman, board, move|
             new_chessman = board[*move]
             !new_chessman || new_chessman.color != chessman.color
           end
         end
 
         def fill_moves
-          @moves << Move.new(-1, -2, &@validator)
-          @moves << Move.new( 1, -2, &@validator)
-          @moves << Move.new(-2, -1, &@validator)
-          @moves << Move.new( 2, -1, &@validator)
-          @moves << Move.new(-2,  1, &@validator)
-          @moves << Move.new( 2,  1, &@validator)
-          @moves << Move.new(-1,  2, &@validator)
-          @moves << Move.new( 1,  2, &@validator)
+          @moves << Move.new(-1, -2, @validator)
+          @moves << Move.new( 1, -2, @validator)
+          @moves << Move.new(-2, -1, @validator)
+          @moves << Move.new( 2, -1, @validator)
+          @moves << Move.new(-2,  1, @validator)
+          @moves << Move.new( 2,  1, @validator)
+          @moves << Move.new(-1,  2, @validator)
+          @moves << Move.new( 1,  2, @validator)
         end
       end
 

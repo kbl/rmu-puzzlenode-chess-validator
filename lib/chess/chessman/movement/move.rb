@@ -5,8 +5,8 @@ module Chess
         
         attr_reader :cords
 
-        def initialize(vector_x, vector_y, &validation)
-          @move_vector, @validation = [vector_x, vector_y], validation
+        def initialize(vector_x, vector_y, validator = Validator.no_op)
+          @move_vector, @validator = [vector_x, vector_y], validator
         end
 
         def valid_cords(chessman, board)
@@ -19,11 +19,7 @@ module Chess
         private 
 
         def call_validation
-          if @validation
-            [@cords] if @validation.call(@chessman, @board, @cords)
-          else
-            [@cords]
-          end
+          [@cords] if @validator.valid?(@chessman, @board, @cords)
         end
       end
     end

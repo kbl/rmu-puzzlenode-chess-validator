@@ -1,5 +1,6 @@
 require 'chess/chessman/movement/move'
 require 'chess/chessman/movement/move_sequence'
+require 'chess/chessman/movement/validator'
 
 module Chess
   module Chessman

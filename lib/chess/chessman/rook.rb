@@ -10,7 +10,7 @@ module Chess
         def initialize_moves
           @moves = []
 
-          @validator = Proc.new do |chessman, board, move|
+          @validator = Validator.new do |chessman, board, move|
             other_chessman = board[*move]
             !other_chessman || other_chessman.color != chessman.color
           end
@@ -21,8 +21,8 @@ module Chess
           left_sequence = MoveSequence.new
           bottom_sequence = MoveSequence.new
           left_bottom.each do |value|
-            bottom_sequence << Move.new(0, value, &@validator)
-            left_sequence << Move.new(value, 0, &@validator)
+            bottom_sequence << Move.new(0, value, @validator)
+            left_sequence << Move.new(value, 0, @validator)
           end
           @moves << left_sequence
           @moves << bottom_sequence
@@ -30,8 +30,8 @@ module Chess
           right_sequence = MoveSequence.new
           up_sequence = MoveSequence.new
           right_up.each do |value|
-            up_sequence << Move.new(0, value, &@validator)
-            right_sequence << Move.new(value, 0, &@validator)
+            up_sequence << Move.new(0, value, @validator)
+            right_sequence << Move.new(value, 0, @validator)
           end
           @moves << right_sequence
           @moves << up_sequence
