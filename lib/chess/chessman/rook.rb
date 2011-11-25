@@ -4,6 +4,11 @@ module Chess
   module Chessman
     class Rook < Base
 
+      MOVE_SEQUENCES = [
+          (-7..-1).to_a.reverse, # left, bottom
+          (1..7).to_a # right, up
+      ]
+
       def initialize(position, color)
         super
         initialize_validator
@@ -14,32 +19,21 @@ module Chess
 
       def initialize_possible_moves
         @possible_moves = []
-
-        sequences_row = [
-          left = (-7..-1).to_a.reverse,
-          right = (1..7).to_a]
-        sequences_column = [
-          up = (1..7).to_a,
-          bottom = (-7..-1).to_a.reverse]
           
-        sequences_row.each do |row|
-          sequence = MoveSequence.new
-          row.each do |vector_x|
-            cords = cords_from_vector(vector_x, 0)
-            break unless cords
-            sequence << Move.new(cords, @validator, :braking)
-          end
-          @possible_moves << sequence unless sequence.empty?
-        end
+        MOVE_SEQUENCES.each do |sequence|
+          sequence_row = MoveSequence.new
+          sequence_column = MoveSequence.new
 
-        sequences_column.each do |column|
-          sequence = MoveSequence.new
-          column.each do |vector_y|
-            cords = cords_from_vector(0, vector_y)
-            break unless cords
-            sequence << Move.new(cords, @validator, :braking)
+          sequence.each do |vector|
+            cords_row = cords_from_vector(vector, 0)
+            cords_column = cords_from_vector(0, vector)
+
+            sequence_row << Move.new(cords_row, @validator, :braking) if cords_row
+            sequence_column << Move.new(cords_column, @validator, :braking) if cords_column
           end
-          @possible_moves << sequence unless sequence.empty?
+
+          @possible_moves << sequence_row unless sequence_row.empty?
+          @possible_moves << sequence_column unless sequence_column.empty?
         end
       end
 

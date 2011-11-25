@@ -27,7 +27,7 @@ module Chess
         end
       end
 
-      describe 'Base#position_in_notation' do
+      describe 'Base#field' do
         it 'should create position in notation from numbers' do
           Base.field(1, 1).should == 'a1'
         end
