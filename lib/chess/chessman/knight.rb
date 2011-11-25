@@ -15,10 +15,6 @@ module Chess
         initialize_possible_moves
       end
 
-      def each
-        @possible_moves.each { |m| yield m }
-      end
-
       private
 
       def initialize_validator

@@ -6,7 +6,7 @@ module Chess
   module Chessman
     class Base
 
-      extend Movement
+      include Movement
 
       HORIZONTAL_AXIS = %w[a b c d e f g h]
       COLORS = [:black, :white]
@@ -35,11 +35,15 @@ module Chess
       def moves(board)
         cords = []
 
-        each do |move|
-          cords << move.valid_cords(self, board)
+        @possible_moves.each do |move|
+          cords << move.cords if move.valid?(board)
         end
 
         fields_from_cords(cords.flatten(1))
+      end
+
+      def white?
+        color == :white
       end
 
       def self.field(x, y)
@@ -71,7 +75,7 @@ module Chess
 
       def cords_from_vector(x, y)
         cords = [@x + x, @y + y]
-        cords if Base.valid_cords?(cords)
+        cords if Base.valid_cords?(*cords)
       end
 
     end
