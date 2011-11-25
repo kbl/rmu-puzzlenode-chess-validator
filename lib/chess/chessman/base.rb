@@ -72,6 +72,11 @@ module Chess
         fields
       end
 
+      def cords_from_vector(x, y)
+        cords = [@x + x, @y + y]
+        cords if Base.valid_cords?(cords)
+      end
+
     end
   end
 end

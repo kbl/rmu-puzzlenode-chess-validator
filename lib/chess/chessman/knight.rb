@@ -3,42 +3,36 @@ require 'chess/chessman/base'
 module Chess
   module Chessman
     class Knight < Base
+      MOVES_VECTORS = [[-1, -2], [ 1, -2],
+                       [-2, -1], [ 2, -1],
+                       [-2,  1], [ 2,  1],
+                       [-1,  2], [ 1,  2]]
 
-      class << self
-        attr_reader :moves
+      def initialize(position, color)
+        super
+        create_validator
+        initialize_possible_moves
+      end
 
-        def initialize_moves
-          @moves = []
+      def each
+        @possible_moves.each { |m| yield m }
+      end
 
-          create_validator
-          fill_moves
-        end
-
-        private
-
-        def create_validator
-          @validator = Validator.new do |chessman, board, move|
-            new_chessman = board[*move]
-            !new_chessman || new_chessman.color != chessman.color
-          end
-        end
-
-        def fill_moves
-          @moves << Move.new(-1, -2, @validator)
-          @moves << Move.new( 1, -2, @validator)
-          @moves << Move.new(-2, -1, @validator)
-          @moves << Move.new( 2, -1, @validator)
-          @moves << Move.new(-2,  1, @validator)
-          @moves << Move.new( 2,  1, @validator)
-          @moves << Move.new(-1,  2, @validator)
-          @moves << Move.new( 1,  2, @validator)
+      private
+      
+      def create_validator
+        @validator = Validator.new(self) do |chessman, destination_chessman|
+          !destination_chessman || destination_chessman.color != chessman.color
         end
       end
 
-      initialize_moves
+      def initialize_possible_moves do
+        @possible_moves = []
 
-      def each
-        Knight.moves.each { |m| yield m }
+        MOVES_VECTORS.each do |vector|
+          cords = cords_from_vector(*vector)
+          @possible_moves << Move.new(cords, @validator) if cords
+        end
       end
 
     end
