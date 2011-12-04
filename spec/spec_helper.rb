@@ -7,7 +7,7 @@ require 'chess/chessman/bishop'
 require 'chess/chessman/queen'
 require 'chess/chessman/king'
 require 'chess/board'
-require 'chess/parser'
+require 'chess/parser/board_parser'
 require 'chess/chessman/chessman_factory'
 
 RSpec::Matchers.define :be_chessman do |field, color, klass|

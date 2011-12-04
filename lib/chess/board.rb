@@ -1,5 +1,5 @@
 require 'chess/chessman/base'
-require 'chess/parser'
+require 'chess/parser/board_parser'
 require 'set'
 
 module Chess
@@ -12,7 +12,7 @@ module Chess
       8.times { @board << [] }
 
       if file
-        parser = Parser.new(file)
+        parser = Parser::BoardParser.new(file)
         p.parse.each { |chessman| self.<<(chessman) }
       end
     end
