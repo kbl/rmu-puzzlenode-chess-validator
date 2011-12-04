@@ -38,6 +38,7 @@ module Chess
     class Bishop < Base
       def initialize(position, color)
         super
+        initialize_valicators
         initialize_possible_moves
       end
 
@@ -49,10 +50,12 @@ module Chess
 
       include BishoplikeMovement
 
-      def initialize_possible_moves
+      def initialize_validators
         @validator = Validator.sequence_validator(@color)
         @capturing_validator = Validator.sequence_capturing_validator
+      end
 
+      def initialize_possible_moves
         @possible_moves = []
         @capturing_moves = []
 
