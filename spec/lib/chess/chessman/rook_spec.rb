@@ -37,6 +37,13 @@ module Chess
           r = Rook.white('d4')
           r.capturing_moves(board).should =~ ['d1', 'd2', 'd3', 'd5', 'd6', 'd7', 'd8', 'a4', 'b4', 'c4', 'e4', 'f4', 'g4', 'h4']
         end
+        it 'should allow for capturing movement on occupied fields' do
+          r = Rook.white('c3')
+          board << Pawn.black('c5')
+          board << King.white('e3')
+
+          r.capturing_moves(board).should =~ ['b3', 'a3', 'c2', 'c1', 'c4', 'c5', 'd3', 'e3']
+        end
       end
     end
   end

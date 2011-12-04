@@ -38,7 +38,7 @@ module Chess
     class Bishop < Base
       def initialize(position, color)
         super
-        initialize_valicators
+        initialize_validators
         initialize_possible_moves
       end
 
