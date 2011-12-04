@@ -38,6 +38,13 @@ module Chess
           lambda { Base.field(1, 0) }.should raise_error
         end
       end
+
+      describe 'Base#opposite_color' do
+        it 'should properly obtain opposite color' do
+          Pawn.white('a1').opposite_color.should == :black
+          Pawn.black('a1').opposite_color.should == :white
+        end
+      end
     end
   end
 end

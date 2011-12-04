@@ -36,7 +36,10 @@ module Chess
       @check = { white: Set.new, black: Set.new }
 
       @board.flatten.each do |chessman|
-        @check[chessman.color] << chessman.capturing_moves(self)
+        color = chessman.opposite_color
+        chessman.capturing_moves(self).each do |move|
+          @check[color] << move
+        end
       end
     end
 

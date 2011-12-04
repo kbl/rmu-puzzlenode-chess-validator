@@ -19,9 +19,25 @@ module Chess
         def white(*args)
           new(*args, :white)
         end
-
         def black(*args)
           new(*args, :black)
+        end
+
+        def field(x, y)
+          raise "illegal argument #{x}, #{y}" unless valid_cords?(x, y)
+          "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"
+        end
+
+        def valid_cords?(x, y)
+          [x, y].each { |cord| return false unless POSITIONS.include?(cord) }
+          true
+        end
+
+        def cords(field)
+          fi = field.downcase
+          raise "illegal field argument #{fi}" unless fi =~ /^[abcdefgh][12345678]$/
+
+          [HORIZONTAL_AXIS.index(fi[0]) + ZERO_BASED, fi[1].to_i]
         end
       end
 
@@ -34,10 +50,10 @@ module Chess
       end
 
       def moves(board)
-        return @fields if @fields
+        return @move_fields if @move_fields
         cords = prepare_valid_cords(@possible_moves, board)
 
-        @fields = fields_from_cords(cords)
+        @move_fields = fields_from_cords(cords)
       end
 
       def capturing_moves(board)
@@ -51,27 +67,14 @@ module Chess
         color == :white
       end
 
-      def self.field(x, y)
-        raise "illegal argument #{x}, #{y}" unless valid_cords?(x, y)
-        "#{HORIZONTAL_AXIS[x - ZERO_BASED]}#{y}"
-      end
-
-      def self.valid_cords?(x, y)
-        [x, y].each { |cord| return false unless POSITIONS.include?(cord) }
-        true
-      end
-
-      def self.cords(field)
-        fi = field.downcase
-        raise "illegal field argument #{fi}" unless fi =~ /^[abcdefgh][12345678]$/
-
-        [HORIZONTAL_AXIS.index(fi[0]) + ZERO_BASED, fi[1].to_i]
+      def opposite_color
+        white? ? :black : :white
       end
 
       protected
 
       def fields_from_cords(cords)
-        fields = [] 
+        fields = []
         cords.reject(&:nil?).each do |cord|
           fields << Base.field(*cord)
         end
