@@ -25,6 +25,9 @@ module Chess
         it 'should raise error on bad color argument' do
           lambda { Base.new('A1', :red) }.should raise_error
         end
+        it 'should be posiible to create chessman with cords' do
+          Base.new([2, 3], :black).field.should == 'b3'
+        end
       end
 
       describe 'Base#field' do

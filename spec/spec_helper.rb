@@ -1,4 +1,5 @@
 require 'rspec'
+require 'stringio'
 require 'chess/chessman/pawn'
 require 'chess/chessman/knight'
 require 'chess/chessman/rook'

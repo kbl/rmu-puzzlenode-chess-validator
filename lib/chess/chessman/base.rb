@@ -13,6 +13,15 @@ module Chess
       POSITIONS = 1..8
       ZERO_BASED = 1
 
+#      CHESSMEN = { 
+#        P: Pawn,
+#        R: Rook,
+#        N: Knight,
+#        B: Bishop,
+#        Q: Queen,
+#        K: King
+#      }
+
       attr_reader :x, :y, :color, :field
 
       class << self
@@ -39,11 +48,21 @@ module Chess
 
           [HORIZONTAL_AXIS.index(fi[0]) + ZERO_BASED, fi[1].to_i]
         end
+        
+        def new_chessman(cords, color_symbol, symbol)
+        end
       end
 
       def initialize(field, color)
-        @field = field
-        @x, @y = Base.cords(field)
+        if field.is_a? Array
+          cords = field
+
+          @field = Base.field(*cords)
+          @x, @y = *cords
+        else
+          @field = field
+          @x, @y = Base.cords(field)
+        end
 
         raise "illegal color argument #{color}" unless COLORS.include?(color)
         @color = color
