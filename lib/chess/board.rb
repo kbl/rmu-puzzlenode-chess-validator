@@ -35,7 +35,7 @@ module Chess
     def initialize_check
       @check = { white: Set.new, black: Set.new }
 
-      @board.flatten.each do |chessman|
+      @board.flatten.reject(&:nil?).each do |chessman|
         color = chessman.opposite_color
         chessman.capturing_moves(self).each do |move|
           @check[color] << move

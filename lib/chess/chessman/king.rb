@@ -20,9 +20,12 @@ module Chess
 
       def initialize_validator
         @validator = Validator.new do |board, cords|
-          return false if board.check?(@color, Base.field(*cords))
+          checked_field = board.check?(@color, Base.field(*cords))
+          
           chessman = board[*cords]
-          !chessman || chessman.color != @color
+          different_chessman_color_or_empty_field = !chessman || chessman.color != @color
+
+          !checked_field && different_chessman_color_or_empty_field
         end
       end
 

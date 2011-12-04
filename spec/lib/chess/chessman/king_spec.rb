@@ -15,6 +15,18 @@ module Chess
           k = King.white('d4')
           k.moves(board).should =~ %w(c3 d3 e3 c4 e4 c5 d5 e5)
         end
+        context 'check' do
+          it 'shouldnt allow for moves on checked fields' do
+            k = King.white('d4')
+            board << k
+
+            board << Rook.black('c2')
+            board << Bishop.black('h7')
+            board << Pawn.black('f6')
+
+            k.moves(board).should =~ %w(d5 e3)
+          end
+        end
       end
 
       describe 'King#capturing_moves' do
