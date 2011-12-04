@@ -16,7 +16,7 @@ module Chess
           k.moves(board).should =~ %w(c3 d3 e3 c4 e4 c5 d5 e5)
         end
         context 'check' do
-          it 'shouldnt allow for moves on checked fields' do
+          it 'shouldnt allow for moves on checked fields #1' do
             k = King.white('d4')
             board << k
 
@@ -25,6 +25,45 @@ module Chess
             board << Pawn.black('f6')
 
             k.moves(board).should =~ %w(d5 e3)
+          end
+          it 'shouldnt allow for moves on checked fields #2' do
+            k = King.white('f5')
+            board << k
+
+            board << Queen.black('d6')
+            board << King.black('e3')
+
+            k.moves(board).should =~ %w(g5 g4)
+          end
+          it 'shouldnt allow for moves on checked fields #3' do
+            k = King.white('f5')
+            board << k
+
+            board << Queen.black('d6')
+            board << Knight.black('f2')
+
+            k.moves(board).should =~ %w(g5)
+          end
+          it 'shouldnt allow for moves on checked fields #5' do
+            k = King.black('c7')
+            board << k
+
+            board << King.white('a5')
+            board << Pawn.white('d6')
+            board << Bishop.white('f3')
+            board << Bishop.white('f4')
+
+            k.moves(board).should =~ %w(b8 c8 d7 d8)
+          end
+          it 'shouldnt allow for moves on checked fields #5' do
+            k = King.black('c7')
+            board << k
+
+            board << King.white('a5')
+            board << Pawn.white('d6')
+            board << Bishop.white('f3')
+
+            k.moves(board).should =~ %w(b8 c8 d6 d7 d8)
           end
         end
       end
