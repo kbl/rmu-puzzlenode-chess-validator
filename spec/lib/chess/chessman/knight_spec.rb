@@ -33,7 +33,7 @@ module Chess
         end
       end
 
-      describe 'Knight#capture_moves' do
+      describe 'Knight#capturing_moves' do
         it 'should properly find capturing moves' do
           k = Knight.white('b8')
           board << Pawn.white('d7')

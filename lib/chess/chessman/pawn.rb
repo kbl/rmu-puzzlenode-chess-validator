@@ -35,6 +35,7 @@ module Chess
 
       def initialize_possible_moves
         @possible_moves = []
+        @capturing_moves = []
 
         vectors, vectors_capturing = BLACK, BLACK_CAPTURING
         if white?
@@ -51,7 +52,10 @@ module Chess
 
         vectors_capturing.each do |vector|
           cord = cords_from_vector(*vector)
-          @possible_moves << Move.new(cord, @capturing_validator) if cord
+          if cord
+            @possible_moves << Move.new(cord, @capturing_validator)
+            @capturing_moves << Move.new(cord)
+          end
         end
       end
 

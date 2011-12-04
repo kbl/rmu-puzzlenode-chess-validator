@@ -3,17 +3,17 @@ require 'spec_helper'
 module Chess
   module Chessman
     describe Pawn do
+
+      let(:board) { Board.new }
+
+      def white(field)
+        Pawn.white(field)
+      end
+      def black(field)
+        Pawn.black(field)
+      end
+
       describe 'Pawn#moves' do
-
-        let(:board) { Board.new }
-
-        def white(field)
-          Pawn.white(field)
-        end
-        def black(field)
-          Pawn.black(field)
-        end
-
         context 'standard movement by one field' do
           context 'white' do
             it 'pawn moves one by one field' do
@@ -113,6 +113,17 @@ module Chess
             end
           end
 
+        end
+      end
+
+      describe 'Pawn#capturing_moves' do
+        it 'should properly find capturing moves on last line' do
+          p = white('b8')
+          p.capturing_moves(board).should be_empty
+        end
+        it 'should find capturing moves' do
+          p = black('e6')
+          p.capturing_moves(board).should =~ ['d5', 'f5']
         end
       end
     end
