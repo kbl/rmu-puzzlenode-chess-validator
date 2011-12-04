@@ -10,12 +10,11 @@ module Chess
         it 'should allow for horizontal/vertical diagonal moves' do
           q = Queen.white('c4')
 
-          q.moves(board).should =~ [
-            'b3', 'a2', 'd5', 'e6', 'f7', 'g8', # /
-            'b5', 'a6', 'd3', 'e2', 'f1', # \
-            'c3', 'c2', 'c1', 'c5', 'c6', 'c7', 'c8', # |
-            'a4', 'b4', 'd4', 'e4', 'f4', 'g4', 'h4' # --
-          ]
+          q.moves(board).should =~ %w(
+            b3 a2 d5 e6 f7 g8 
+            b5 a6 d3 e2 f1
+            c3 c2 c1 c5 c6 c7 c8
+            a4 b4 d4 e4 f4 g4 h4)
         end
       end
 
@@ -23,12 +22,11 @@ module Chess
         it 'should allow for horizontal/vertical diagonal capturing moves' do
           q = Queen.white('c4')
 
-          q.capturing_moves(board).should =~ [
-            'b3', 'a2', 'd5', 'e6', 'f7', 'g8', # /
-            'b5', 'a6', 'd3', 'e2', 'f1', # \
-            'c3', 'c2', 'c1', 'c5', 'c6', 'c7', 'c8', # |
-            'a4', 'b4', 'd4', 'e4', 'f4', 'g4', 'h4' # --
-          ]
+          q.capturing_moves(board).should =~ %w(
+            b3 a2 d5 e6 f7 g8
+            b5 a6 d3 e2 f1
+            c3 c2 c1 c5 c6 c7 c8 
+            a4 b4 d4 e4 f4 g4 h4)
         end
         it 'should allow for horizontal/vertical diagonal capturing moves on occupied fields' do
           q = Queen.white('c4')
@@ -44,12 +42,11 @@ module Chess
           board << Pawn.black('b4')
           board << Pawn.white('f4')
 
-          q.capturing_moves(board).should =~ [
-            'b3', 'd5', 'e6', # /
-            'b5', 'd3', 'e2', # \
-            'c3', 'c2', 'c5', 'c6', 'c7', # |
-            'b4', 'd4', 'e4', 'f4' # --
-          ]
+          q.capturing_moves(board).should =~ %w(
+            b3 d5 e6
+            b5 d3 e2
+            c3 c2 c5 c6 c7
+            b4 d4 e4 f4)
         end
       end
     end
