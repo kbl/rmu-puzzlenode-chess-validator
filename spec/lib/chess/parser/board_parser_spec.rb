@@ -16,7 +16,10 @@ module Chess
         EOS
         p = BoardParser.new(board)
         chessmen = p.parse
+
         chessmen.size.should == 32
+        chessmen[0].should be_chessman('a8', :black, Chess::Chessman::Rook)
+        chessmen[30].should be_chessman('g1', :white, Chess::Chessman::Knight)
       end
     end
   end

@@ -26,7 +26,7 @@ module Chess
       def initialize_chessmen
         @chessmen = []
         @column = 1
-        @row = 1
+        @row = 8
 
         @stream.each_line do |line|
 
@@ -41,7 +41,7 @@ module Chess
             @column += 1
           end
 
-          @row += 1
+          @row -= 1
           @column = 1
         end
       end
