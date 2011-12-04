@@ -1,3 +1,10 @@
+require 'chess/chessman/pawn'
+require 'chess/chessman/rook'
+require 'chess/chessman/knight'
+require 'chess/chessman/bishop'
+require 'chess/chessman/queen'
+require 'chess/chessman/king'
+
 module Chess
   module Chessman
     class ChessmanFactory
@@ -15,12 +22,12 @@ module Chess
 
       class << self
 
-        def new_chessman(cords, color_symbol, symbol)
+        def new_chessman(cords, color_symbol, chessman_symbol)
           method_name = :black
           if WHITE_SYMBOL == color_symbol
             method_name = :white
           end
-          p method_name
+          CHESSMEN[chessman_symbol.to_sym].send(method_name, cords)
         end
 
       end
