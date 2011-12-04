@@ -1,7 +1,13 @@
 require 'chess/board'
+require 'chess/parser/input_parser'
 
 module Chess
   class RmuValidator
+
+    include Chess::Parser
+
+    LEGAL = 'LEGAL'
+    ILLEGAL = 'ILLEGAL'
 
     attr_reader :board
     
@@ -9,6 +15,23 @@ module Chess
       File.open(file_path) do |file|
         @board = Board.new(file)
       end
+    end
+
+    def validate(file_path)
+      output = []
+      File.open(file_path) do |file|
+        input_parser = InputParser.new(file)
+        input_parser.each do |field_from, field_to|
+          chessman = @board.field(field_from)
+          if chessman
+            #p "#{chessman} #{chessman.color} #{field_from} #{chessman.moves(@board)}"
+            output << (chessman.moves(@board).include?(field_to) ? LEGAL : ILLEGAL)
+          else
+            output << ILLEGAL
+          end
+        end
+      end
+      output
     end
     
   end
