@@ -7,13 +7,15 @@ module Chess
 
     ZERO_BASED = 1
 
+    include Enumerable
+
     def initialize(file = nil)
       @board = []
       8.times { @board << [] }
 
       if file
         parser = Parser::BoardParser.new(file)
-        p.parse.each { |chessman| self.<<(chessman) }
+        parser.parse.each { |chessman| self.<<(chessman) }
       end
     end
 
@@ -34,6 +36,10 @@ module Chess
         initialize_check
       end
       @check[color].include?(field)
+    end
+
+    def each
+      @board.flatten.reject(&:nil?).each { |chessman| yield chessman }
     end
 
     private
