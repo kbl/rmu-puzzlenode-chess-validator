@@ -125,6 +125,12 @@ module Chess
           p = black('e6')
           p.capturing_moves(board).should =~ ['d5', 'f5']
         end
+        it 'should find capturing moves for occupied fields' do
+          p = black('e6')
+          board << black('d5')
+          board << white('f5')
+          p.capturing_moves(board).should =~ ['d5', 'f5']
+        end
       end
     end
   end
