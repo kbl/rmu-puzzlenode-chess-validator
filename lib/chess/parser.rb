@@ -1,4 +1,4 @@
-require 'chess/chessman/base'
+require 'chess/chessman/chessman_factory'
 
 module Chess
   class Parser
@@ -32,7 +32,10 @@ module Chess
         line.split.each do |symbol|
           unless symbol == EMPTY_FIELD
             color, chessman_symbol = symbol.split('')
-            Base.new_chessman([@column, @row], color, chessman_symbol)
+            @chessmen << ChessmanFactory.new_chessman(
+              [@column, @row], 
+              color, 
+              chessman_symbol)
           end
           @column += 1
         end

@@ -13,15 +13,6 @@ module Chess
       POSITIONS = 1..8
       ZERO_BASED = 1
 
-#      CHESSMEN = { 
-#        P: Pawn,
-#        R: Rook,
-#        N: Knight,
-#        B: Bishop,
-#        Q: Queen,
-#        K: King
-#      }
-
       attr_reader :x, :y, :color, :field
 
       class << self
@@ -47,9 +38,6 @@ module Chess
           raise "illegal field argument #{fi}" unless fi =~ /^[abcdefgh][12345678]$/
 
           [HORIZONTAL_AXIS.index(fi[0]) + ZERO_BASED, fi[1].to_i]
-        end
-        
-        def new_chessman(cords, color_symbol, symbol)
         end
       end
 
