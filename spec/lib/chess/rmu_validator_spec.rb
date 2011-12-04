@@ -7,29 +7,33 @@ module Chess
        File.join(File.dirname(__FILE__), filename)
     end
 
-    subject { RmuValidator.new(path('simple_board.txt')) }
+    context 'simple_moves' do
 
-    it 'should create board from sample file' do
-      subject.board.count.should == 32
+      subject { RmuValidator.new(path('simple_board.txt')) }
+
+      it 'should create board from sample file' do
+        subject.board.count.should == 32
+      end
+      it 'should properly validate moves' do
+        input = path('simple_moves.txt')
+        output = subject.validate(input)
+        output.should == %w{
+          LEGAL LEGAL ILLEGAL LEGAL
+          LEGAL ILLEGAL ILLEGAL LEGAL
+          LEGAL ILLEGAL LEGAL ILLEGAL
+        }
+      end
     end
 
-    it 'should properly validate moves' do
-      input = path('simple_moves.txt')
-      output = subject.validate(input)
-      output.should == %w{
-        LEGAL
-        LEGAL
-        ILLEGAL
-        LEGAL
-        LEGAL
-        ILLEGAL
-        ILLEGAL
-        LEGAL
-        LEGAL
-        ILLEGAL
-        LEGAL
-        ILLEGAL
-      }
+    context 'complex_moves' do
+
+      subject { RmuValidator.new(path('complex_board.txt')) }
+
+      it 'should print output (;' do
+        input = path('complex_moves.txt')
+        output = subject.validate(input)
+        puts output
+      end
     end
 
   end
