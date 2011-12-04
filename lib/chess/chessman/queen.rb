@@ -19,7 +19,9 @@ module Chess
 
       def initialize_possible_moves
         @validator = Validator.sequence_validator(@color)
+        @capturing_validator = Validator.sequence_capturing_validator
         @possible_moves = []
+        @capturing_moves = []
 
         apply_bishoplike_movement
         apply_rooklike_movement

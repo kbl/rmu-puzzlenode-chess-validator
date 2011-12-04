@@ -12,15 +12,25 @@ module Chess
           sequence1 = MoveSequence.new
           sequence2 = MoveSequence.new
 
+          sequence1_capturing = MoveSequence.new
+          sequence2_capturing = MoveSequence.new
+
           vector_sequence.each do |vector|
             cords1 = cords_from_vector(vector, vector)
             cords2 = cords_from_vector(vector, -vector)
 
-            sequence1 << Move.new(cords1, @validator, :breaking) if cords1
-            sequence2 << Move.new(cords2, @validator, :breaking) if cords2
+            if cords1
+              sequence1 << Move.new(cords1, @validator, :breaking)
+              sequence1_capturing << Move.new(cords1, @capturing_validator, :breaking)
+            end
+            if cords2
+              sequence2 << Move.new(cords2, @validator, :breaking)
+              sequence2_capturing << Move.new(cords2, @capturing_validator, :breaking)
+            end
           end
-          @possible_moves << sequence1 unless sequence1.empty?
-          @possible_moves << sequence2 unless sequence2.empty?
+
+          [sequence1, sequence2].each { |s| @possible_moves << s unless s.empty? }
+          [sequence1_capturing, sequence2_capturing].each { |s| @capturing_moves << s unless s.empty? }
         end
       end
     end
@@ -41,7 +51,10 @@ module Chess
 
       def initialize_possible_moves
         @validator = Validator.sequence_validator(@color)
+        @capturing_validator = Validator.sequence_capturing_validator
+
         @possible_moves = []
+        @capturing_moves = []
 
         apply_bishoplike_movement
       end

@@ -23,15 +23,13 @@ module Chess
               end
             end
           end
-          def sequence_capturig_validator(color)
+          def sequence_capturing_validator
             Validator.new do |board, cords, move|
               chessman = board[*cords]
-              if !chessman
-                true
-              else
+              if chessman
                 move.stop_sequence!
-                true
               end
+              true
             end
           end
         end
