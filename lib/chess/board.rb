@@ -1,4 +1,5 @@
 require 'chess/chessman/base'
+require 'chess/parser'
 require 'set'
 
 module Chess
@@ -6,9 +7,14 @@ module Chess
 
     ZERO_BASED = 1
 
-    def initialize
+    def initialize(file = nil)
       @board = []
       8.times { @board << [] }
+
+      if file
+        parser = Parser.new(file)
+        p.parse.each { |chessman| self.<<(chessman) }
+      end
     end
 
     def <<(chessman)
