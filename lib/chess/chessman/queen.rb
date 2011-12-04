@@ -6,6 +6,7 @@ module Chess
 
       def initialize(position, color)
         super
+        initialize_validators
         initialize_possible_moves
       end
 
@@ -17,9 +18,12 @@ module Chess
 
       include BishoplikeMovement, RooklikeMovement
 
-      def initialize_possible_moves
+      def initialize_validators
         @validator = Validator.sequence_validator(@color)
         @capturing_validator = Validator.sequence_capturing_validator
+      end
+
+      def initialize_possible_moves
         @possible_moves = []
         @capturing_moves = []
 
