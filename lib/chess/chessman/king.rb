@@ -8,6 +8,7 @@ module Chess
 
       def initialize(position, color)
         super
+        initialize_validator
         initialize_possible_moves
       end
 
@@ -17,17 +18,24 @@ module Chess
 
       private
 
-      def initialize_possible_moves
-        @possible_moves = []
+      def initialize_validator
         @validator = Validator.new do |board, cords|
           return false if board.check?(@color, Base.field(*cords))
           chessman = board[*cords]
           !chessman || chessman.color != @color
         end
+      end
+
+      def initialize_possible_moves
+        @possible_moves = []
+        @capturing_moves = []
 
         MOVE_VECTORS.each do |vector|
           cords = cords_from_vector(*vector)
-          @possible_moves << Move.new(cords, @validator) if cords
+          if cords
+            @possible_moves << Move.new(cords, @validator)
+            @capturing_moves << Move.new(cords)
+          end
         end
       end
 
