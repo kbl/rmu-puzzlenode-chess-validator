@@ -3,7 +3,6 @@ require 'spec_helper'
 module Chess
   describe Parser do
     it 'should properly parse board' do
-      pending
       board = StringIO.new <<-EOS
         bR bN bB bQ bK bB bN bR
         bP bP bP bP bP bP bP bP
@@ -15,7 +14,8 @@ module Chess
         wR wN wB wQ wK wB wN wR
       EOS
       p = Parser.new(board)
-      #p.parse.should == []
+      chessmen = p.parse
+      chessmen.size.should == 32
     end
   end
 end
