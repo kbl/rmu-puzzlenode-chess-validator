@@ -3,10 +3,6 @@ require 'spec_helper'
 module Chess
   describe RmuValidator do
 
-    def path(filename)
-       File.join(File.dirname(__FILE__), filename)
-    end
-
     context 'simple_moves' do
 
       subject { RmuValidator.new(path('simple_board.txt')) }

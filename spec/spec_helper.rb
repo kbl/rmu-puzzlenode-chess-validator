@@ -11,6 +11,10 @@ require 'chess/board'
 require 'chess/rmu_validator'
 require 'chess/parser/board_parser'
 
+def path(filename)
+  File.join(File.dirname(__FILE__), filename)
+end
+
 RSpec::Matchers.define :be_chessman do |field, color, klass|
   match do |chessman|
     chessman.field.should == field
