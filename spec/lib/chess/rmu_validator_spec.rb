@@ -21,16 +21,5 @@ module Chess
       end
     end
 
-    context 'complex_moves' do
-
-      subject { RmuValidator.new(path('complex_board.txt')) }
-
-      it 'should print output (;' do
-        input = path('complex_moves.txt')
-        output = subject.validate(input)
-        puts output
-      end
-    end
-
   end
 end

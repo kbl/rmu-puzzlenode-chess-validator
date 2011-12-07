@@ -10,6 +10,7 @@ require 'chess/chessman/chessman_factory'
 require 'chess/board'
 require 'chess/rmu_validator'
 require 'chess/parser/board_parser'
+require 'chess/output_formatter'
 
 def path(filename)
   File.join(File.dirname(__FILE__), filename)
