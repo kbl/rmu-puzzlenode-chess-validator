@@ -6,9 +6,6 @@ module Chess
 
     include Chess::Parser
 
-    LEGAL = 'LEGAL'
-    ILLEGAL = 'ILLEGAL'
-
     attr_reader :board
     
     def initialize(file_path)
@@ -24,10 +21,9 @@ module Chess
         input_parser.each do |field_from, field_to|
           chessman = @board.field(field_from)
           if chessman
-            #p "#{chessman} #{chessman.color} #{field_from} #{chessman.moves(@board)}"
-            output << (chessman.moves(@board).include?(field_to) ? LEGAL : ILLEGAL)
+            output << chessman.moves(@board).include?(field_to)
           else
-            output << ILLEGAL
+            output << false
           end
         end
       end

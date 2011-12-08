@@ -13,11 +13,11 @@ module Chess
       it 'should properly validate moves' do
         input = path('simple_moves.txt')
         output = subject.validate(input)
-        output.should == %w{
-          LEGAL LEGAL ILLEGAL LEGAL
-          LEGAL ILLEGAL ILLEGAL LEGAL
-          LEGAL ILLEGAL LEGAL ILLEGAL
-        }
+        output.should == [
+          true, true, false, true,
+          true, false, false, true,
+          true, false, true, false
+        ]
       end
     end
 
