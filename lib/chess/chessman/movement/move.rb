@@ -2,25 +2,38 @@ module Chess
   module Chessman
     module Movement
       class Move
+
+        attr_accessor :stop_sequence
         
-        attr_reader :cords
-
-        def initialize(vector_x, vector_y, validator = Validator.no_op)
-          @move_vector, @validator = [vector_x, vector_y], validator
+        def initialize(cords, validator = Validator.no_op_validator, sequence_stopping = false)
+          @cords, @validator, @sequence_stopping = cords, validator, sequence_stopping
+          @sequence_stopped = false
         end
 
-        def valid_cords(chessman, board)
-          @chessman, @board = chessman, board
-          @cords = [chessman.x + @move_vector[0], chessman.y + @move_vector[1]]
-
-          call_validation if Base.valid_cords?(*@cords)
+        def valid?(board)
+          if @sequence_stopping
+            @validator.valid?(board, @cords, self)
+          else
+            @validator.valid?(board, @cords)
+          end
         end
 
-        private 
-
-        def call_validation
-          [@cords] if @validator.valid?(@chessman, @board, @cords)
+        def to_s
+          @cords
         end
+
+        def cords
+          [@cords]
+        end
+
+        def stop_sequence!
+          @sequence_stopped = true
+        end
+
+        def sequence_stopped?
+          @sequence_stopped
+        end
+
       end
     end
   end

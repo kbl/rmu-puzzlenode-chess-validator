@@ -1,13 +1,22 @@
 require 'chess/chessman/base'
+require 'chess/parser/board_parser'
+require 'set'
 
 module Chess
   class Board
 
     ZERO_BASED = 1
 
-    def initialize
+    include Enumerable
+
+    def initialize(file = nil)
       @board = []
       8.times { @board << [] }
+
+      if file
+        parser = Parser::BoardParser.new(file)
+        parser.parse.each { |chessman| self.<<(chessman) }
+      end
     end
 
     def <<(chessman)
@@ -21,5 +30,30 @@ module Chess
     def field(field)
       self.[](*Chessman::Base.cords(field))
     end
+
+    def check?(color, field)
+      unless @check
+        initialize_check
+      end
+      @check[color].include?(field)
+    end
+
+    def each
+      @board.flatten.reject(&:nil?).each { |chessman| yield chessman }
+    end
+
+    private
+
+    def initialize_check
+      @check = { white: Set.new, black: Set.new }
+
+      @board.flatten.reject(&:nil?).each do |chessman|
+        color = chessman.opposite_color
+        chessman.capturing_moves(self).each do |move|
+          @check[color] << move
+        end
+      end
+    end
+
   end
 end

@@ -1,0 +1,10 @@
+Chees Validator
+---------------
+
+Chess validator written with TDD approach using RSpec.
+
+Input files are in spec/ folder. Output file will be generated while executing unit tests:
+
+    $bundle
+    $rspec
+

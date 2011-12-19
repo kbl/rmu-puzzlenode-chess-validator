@@ -2,48 +2,66 @@ require 'chess/chessman/base'
 
 module Chess
   module Chessman
-    class Rook < Base
 
-      class << self
-        attr_reader :moves
+    module RooklikeMovement
 
-        def initialize_moves
-          @moves = []
+      include Movement
 
-          @validator = Validator.new do |chessman, board, move|
-            other_chessman = board[*move]
-            !other_chessman || other_chessman.color != chessman.color
+      def apply_rooklike_movement
+        MoveSequence::SEQUENCES.each do |vector_sequence|
+          sequence_row = MoveSequence.new
+          sequence_row_capturing = MoveSequence.new
+
+          sequence_column = MoveSequence.new
+          sequence_column_capturing = MoveSequence.new
+
+          vector_sequence.each do |vector|
+            cords_row = cords_from_vector(vector, 0)
+            cords_column = cords_from_vector(0, vector)
+
+            if cords_row
+              sequence_row << Move.new(cords_row, @validator, :braking)
+              sequence_row_capturing << Move.new(cords_row, @capturing_validator, :braking)
+            end
+            if cords_column
+              sequence_column << Move.new(cords_column, @validator, :braking)
+              sequence_column_capturing << Move.new(cords_column, @capturing_validator, :braking)
+            end
           end
 
-          left_bottom = (-7..-1).to_a.reverse
-          right_up = (1..7).to_a
-
-          left_sequence = MoveSequence.new
-          bottom_sequence = MoveSequence.new
-          left_bottom.each do |value|
-            bottom_sequence << Move.new(0, value, @validator)
-            left_sequence << Move.new(value, 0, @validator)
-          end
-          @moves << left_sequence
-          @moves << bottom_sequence
-
-          right_sequence = MoveSequence.new
-          up_sequence = MoveSequence.new
-          right_up.each do |value|
-            up_sequence << Move.new(0, value, @validator)
-            right_sequence << Move.new(value, 0, @validator)
-          end
-          @moves << right_sequence
-          @moves << up_sequence
+          [sequence_row, sequence_column].each { |s| @possible_moves << s unless s.empty? }
+          [sequence_row_capturing, sequence_column_capturing].each { |s| @capturing_moves << s unless s.empty? }
         end
       end
+    end
 
-      initialize_moves
-
-      def each
-        Rook.moves.each { |m| yield m }
+    class Rook < Base
+      def initialize(position, color)
+        super
+        initialize_validators
+        initialize_possible_moves
       end
 
+      def to_s
+        "R#{@field}"
+      end
+
+      private
+
+      include RooklikeMovement
+
+      def initialize_validators
+        @validator = Validator.sequence_validator(@color)
+        @capturing_validator = Validator.sequence_capturing_validator
+      end
+
+      def initialize_possible_moves
+        @possible_moves = []
+        @capturing_moves = []
+
+        apply_rooklike_movement
+      end
     end
+
   end
 end

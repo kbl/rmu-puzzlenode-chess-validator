@@ -2,12 +2,9 @@ require 'chess/chessman/base'
 
 module Chess
   module Chessman
-    class Knight < Base
+    class King < Base
 
-      MOVES_VECTORS = [[-1, -2], [ 1, -2],
-                       [-2, -1], [ 2, -1],
-                       [-2,  1], [ 2,  1],
-                       [-1,  2], [ 1,  2]]
+      MOVE_VECTORS = (-1..1).to_a.repeated_permutation(2).reject { |x, y| x == 0 && y == 0 }
 
       def initialize(position, color)
         super
@@ -16,15 +13,19 @@ module Chess
       end
 
       def to_s
-        "N#{@field}"
+        "K#{@field}"
       end
 
       private
 
       def initialize_validator
         @validator = Validator.new do |board, cords|
+          checked_field = board.check?(@color, Base.field(*cords))
+          
           chessman = board[*cords]
-          !chessman || chessman.color != @color
+          different_chessman_color_or_empty_field = !chessman || chessman.color != @color
+
+          !checked_field && different_chessman_color_or_empty_field
         end
       end
 
@@ -32,7 +33,7 @@ module Chess
         @possible_moves = []
         @capturing_moves = []
 
-        MOVES_VECTORS.each do |vector|
+        MOVE_VECTORS.each do |vector|
           cords = cords_from_vector(*vector)
           if cords
             @possible_moves << Move.new(cords, @validator)

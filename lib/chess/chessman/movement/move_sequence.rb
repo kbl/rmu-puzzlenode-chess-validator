@@ -3,26 +3,42 @@ module Chess
     module Movement
       class MoveSequence
 
+        SEQUENCES = [
+            (-7..-1).to_a.reverse, # left, bottom
+            (1..7).to_a # right, up
+        ]
+
         def initialize
           @moves = []
+          @stopped = false
         end
 
         def <<(move)
           @moves << move
         end
 
-        def valid_cords(chessman, board)
-          return_values = []
-          previous_valid = true
+        def cords
+          @cords
+        end
+
+        def empty?
+          @moves.empty?
+        end
+
+        def valid?(board)
+          @cords = []
 
           @moves.each do |move|
-            valid_move_cords = move.valid_cords(chessman, board)
-            break unless valid_move_cords
-
-            return_values << valid_move_cords
+            break unless move.valid?(board)
+            @cords << move.cords
+            break if move.sequence_stopped?
           end
+          @cords.flatten!(1)
+          !@cords.empty?
+        end
 
-          return_values.flatten(1)
+        def to_s
+          "S#{@moves}"
         end
 
       end

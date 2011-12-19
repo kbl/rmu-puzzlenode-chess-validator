@@ -4,54 +4,75 @@ module Chess
   module Chessman
     class Pawn < Base
 
-      UPWARDS = 1
-      DOWNWARDS = -1
-      
-      class << self
-        attr_reader :moves
+      FIRST_LINE_WHITE = 2
+      FIRST_LINE_BLACK = 7
 
-        def initialize_moves
-          @moves = {white: [], black: []}
+      WHITE = [[0, 1], [0, 2]]
+      WHITE_CAPTURING = [[-1, 1], [1, 1]]
 
-          create_validations
-          fill_moves
+      BLACK = [[0, -1], [0, -2]]
+      BLACK_CAPTURING = [[-1, -1], [1, -1]]
+
+      def initialize(position, color)
+        super
+        initialize_validators
+        initialize_possible_moves
+      end
+
+      def to_s
+        "P#{@field}"
+      end
+
+      private
+
+      def first_line?
+        if white?
+          @y == FIRST_LINE_WHITE
+        else
+          @y == FIRST_LINE_BLACK
+        end
+      end
+
+      def initialize_possible_moves
+        @possible_moves = []
+        @capturing_moves = []
+
+        vectors, vectors_capturing = BLACK, BLACK_CAPTURING
+        if white?
+          vectors, vectors_capturing = WHITE, WHITE_CAPTURING
         end
 
-        private
-
-        def create_validations
-          @capturing_validator = Validator.new do |chessman, board, move|
-            other_chessman = board[*move]
-            other_chessman && other_chessman.color != chessman.color
-          end                                
-
-          @first_line_validator = Validator.new do |chessman, board, move|
-            first_line = Base.const_get("FIRST_LINE_#{chessman.color.upcase}")
-            chessman.y == first_line && !board[*move]
-          end
-
-          @empty_field_validator = Validator.new do |chessman, board, move|
-            !board[*move]
-          end
+        sequence = MoveSequence.new
+        vectors.each do |vector|
+          cords = cords_from_vector(*vector)
+          break unless cords
+          sequence << Move.new(cords, @first_line_validator, :breaking)
         end
+        @possible_moves << sequence
 
-        def fill_moves
-          { white: UPWARDS, black: DOWNWARDS }.each do |color, direction|
-            sequence = MoveSequence.new
-            sequence << Move.new(0, 1 * direction, @empty_field_validator)
-            sequence << Move.new( 0, 2 * direction, @first_line_validator)
-            @moves[color] << sequence
-
-            @moves[color] << Move.new(-1, 1 * direction, @capturing_validator)
-            @moves[color] << Move.new( 1, 1 * direction, @capturing_validator)
+        vectors_capturing.each do |vector|
+          cord = cords_from_vector(*vector)
+          if cord
+            @possible_moves << Move.new(cord, @capturing_validator)
+            @capturing_moves << Move.new(cord)
           end
         end
       end
 
-      initialize_moves
+      def initialize_validators
+        @capturing_validator = Validator.new do |board, cords|
+          chessman = board[*cords]
+          chessman && chessman.color != @color
+        end
 
-      def each
-        Pawn.moves[color].each { |m| yield m }
+        @first_line_validator = Validator.new do |board, cords, move|
+          chessman = board[*cords]
+          unless first_line?
+            move.stop_sequence!
+          end
+
+          !chessman
+        end
       end
 
     end

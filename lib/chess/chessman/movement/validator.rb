@@ -3,22 +3,49 @@ module Chess
     module Movement
       class Validator
 
-        def self.no_op
-          Validator.new { true }
+        class << self
+          def no_op_validator
+            Validator.new do |board, cords, move|
+              true
+            end
+          end
+
+          def sequence_validator(color)
+            Validator.new do |board, cords, move|
+              chessman = board[*cords]
+              if !chessman
+                true
+              else
+                could_be_captured = chessman.color != color
+                move.stop_sequence! if could_be_captured
+              
+                could_be_captured
+              end
+            end
+          end
+          def sequence_capturing_validator
+            Validator.new do |board, cords, move|
+              chessman = board[*cords]
+              if chessman
+                move.stop_sequence!
+              end
+              true
+            end
+          end
         end
 
-        def initialize(break_sequence = false, &validation_block)
-          @break_sequence = break_sequence
+        def initialize(&validation_block)
           @validation_block = validation_block
         end
 
-        def valid?(chessman, board, cords)
-          @validation_block.call(chessman, board, cords)
+        def valid?(board, cords, move = nil)
+          if move
+            @validation_block.call(board, cords, move)
+          else
+            @validation_block.call(board, cords)
+          end
         end
 
-        def break_sequence?
-          @break_sequence
-        end
       end
     end
   end

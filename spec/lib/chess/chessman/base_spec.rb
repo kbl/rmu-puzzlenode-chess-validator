@@ -25,9 +25,12 @@ module Chess
         it 'should raise error on bad color argument' do
           lambda { Base.new('A1', :red) }.should raise_error
         end
+        it 'should be posiible to create chessman with cords' do
+          Base.new([2, 3], :black).field.should == 'b3'
+        end
       end
 
-      describe 'Base#position_in_notation' do
+      describe 'Base#field' do
         it 'should create position in notation from numbers' do
           Base.field(1, 1).should == 'a1'
         end
@@ -36,6 +39,13 @@ module Chess
           lambda { Base.field(9, 1) }.should raise_error
           lambda { Base.field(0, 1) }.should raise_error
           lambda { Base.field(1, 0) }.should raise_error
+        end
+      end
+
+      describe 'Base#opposite_color' do
+        it 'should properly obtain opposite color' do
+          Pawn.white('a1').opposite_color.should == :black
+          Pawn.black('a1').opposite_color.should == :white
         end
       end
     end
